@@ -2,20 +2,20 @@ package imports
 
 type FormatterOptionFn func(*Formatter)
 
-func FormatterWithList() FormatterOptionFn {
+func FormatterWithList(isList bool) FormatterOptionFn {
 	return func(f *Formatter) {
-		f.isList = true
+		f.isList = isList
 	}
 }
 
-func FormatterWithWrite() FormatterOptionFn {
+func FormatterWithWrite(isWrite bool) FormatterOptionFn {
 	return func(f *Formatter) {
-		f.isWrite = true
+		f.isWrite = isWrite
 	}
 }
 
-func FormatterWithDiff() FormatterOptionFn {
+func FormatterWithDiff(isDiff bool) FormatterOptionFn {
 	return func(f *Formatter) {
-		f.isDiff = true
+		f.isDiff = isDiff
 	}
 }

@@ -3,6 +3,7 @@ package cli
 import (
 	"fmt"
 
+	"github.com/haunt98/gofimports/internal/imports"
 	"github.com/urfave/cli/v2"
 )
 
@@ -34,7 +35,15 @@ func (a *action) Run(c *cli.Context) error {
 		return a.RunHelp(c)
 	}
 
-	fmt.Println(c.Args().Slice())
+	f := imports.NewFormmater(
+		imports.FormatterWithList(a.flags.list),
+		imports.FormatterWithWrite(a.flags.write),
+		imports.FormatterWithDiff(a.flags.diff),
+	)
+
+	if err := f.Format(c.Args().Slice()...); err != nil {
+		return fmt.Errorf("imports formatter: failed to format %v: %w", c.Args().Slice(), err)
+	}
 
 	return nil
 }
