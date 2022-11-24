@@ -83,5 +83,7 @@ func (ft *Formatter) formatFile(path string) error {
 		return nil
 	}
 
+	// TODO: fix imports
+
 	return nil
 }
