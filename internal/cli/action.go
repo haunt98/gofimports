@@ -29,7 +29,10 @@ func (a *action) Run(c *cli.Context) error {
 
 	if !a.flags.write &&
 		!a.flags.diff {
-		a.RunHelp(c)
+		if err := a.RunHelp(c); err != nil {
+			return err
+		}
+
 		fmt.Println("Error: -w or -d must required one")
 		return nil
 	}
