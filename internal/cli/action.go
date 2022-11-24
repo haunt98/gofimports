@@ -46,8 +46,9 @@ func (a *action) Run(c *cli.Context) error {
 		imports.FormatterWithDiff(a.flags.diff),
 	)
 
-	if err := f.Format(c.Args().Slice()...); err != nil {
-		return fmt.Errorf("imports formatter: failed to format %v: %w", c.Args().Slice(), err)
+	args := c.Args().Slice()
+	if err := f.Format(args...); err != nil {
+		return fmt.Errorf("imports formatter: failed to format %v: %w", args, err)
 	}
 
 	return nil
