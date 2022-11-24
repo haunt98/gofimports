@@ -1,6 +1,8 @@
 package cli
 
 import (
+	"fmt"
+
 	"github.com/urfave/cli/v2"
 )
 
@@ -25,14 +27,14 @@ func (a *action) getFlags(c *cli.Context) {
 func (a *action) Run(c *cli.Context) error {
 	a.getFlags(c)
 
-	if !a.flags.write &&
+	// No flag is set
+	if !a.flags.list &&
+		!a.flags.write &&
 		!a.flags.diff {
-		if err := a.RunHelp(c); err != nil {
-			return err
-		}
-
-		return nil
+		return a.RunHelp(c)
 	}
+
+	fmt.Println(c.Args().Slice())
 
 	return nil
 }

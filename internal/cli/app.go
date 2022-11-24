@@ -16,12 +16,10 @@ const (
 	flagListUsage = "list files will be changed"
 
 	flagWriteName  = "write"
-	flagWriteUsage = "actually write changes to (source) files, conflicts with -d, only one of -w or -d can be used"
+	flagWriteUsage = "actually write changes to (source) files"
 
-	// If both write and diff is exist
-	// Choose diff
 	flagDiffName  = "diff"
-	flagDiffUsage = "show diff instead of writing changes"
+	flagDiffUsage = "show diff"
 )
 
 var (
