@@ -1,8 +1,6 @@
 package cli
 
 import (
-	"fmt"
-
 	"github.com/urfave/cli/v2"
 )
 
@@ -33,7 +31,6 @@ func (a *action) Run(c *cli.Context) error {
 			return err
 		}
 
-		fmt.Println("Error: -w or -d must required one")
 		return nil
 	}
 
