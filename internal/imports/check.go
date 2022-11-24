@@ -2,11 +2,8 @@ package imports
 
 import (
 	"go/ast"
-	"regexp"
 	"strings"
 )
-
-var reGoGenerated = regexp.MustCompile(`^// Code generated .* DO NOT EDIT\.$`)
 
 // Copy from https://github.com/mvdan/gofumpt
 func isGoFile(name string) bool {
@@ -19,6 +16,7 @@ func isGoFile(name string) bool {
 }
 
 // Copy from https://github.com/mvdan/gofumpt
+// Copy from https://github.com/incu6us/goimports-reviser
 func isGoGenerated(file *ast.File) bool {
 	for _, cg := range file.Comments {
 		// Ignore if package ... is on top
@@ -27,7 +25,7 @@ func isGoGenerated(file *ast.File) bool {
 		}
 
 		for _, line := range cg.List {
-			if reGoGenerated.MatchString(line.Text) {
+			if strings.Contains(line.Text, "// Code generated") {
 				return true
 			}
 		}
