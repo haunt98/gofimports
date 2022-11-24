@@ -35,6 +35,7 @@ type App struct {
 func NewApp() *App {
 	a := &action{}
 
+	// TODO: hide commands, show args usage
 	cliApp := &cli.App{
 		Name:  name,
 		Usage: usage,

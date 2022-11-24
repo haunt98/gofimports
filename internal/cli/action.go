@@ -35,6 +35,11 @@ func (a *action) Run(c *cli.Context) error {
 		return a.RunHelp(c)
 	}
 
+	// Empty args
+	if c.Args().Len() == 0 {
+		return a.RunHelp(c)
+	}
+
 	f := imports.NewFormmater(
 		imports.FormatterWithList(a.flags.list),
 		imports.FormatterWithWrite(a.flags.write),
