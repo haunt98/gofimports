@@ -1,4 +1,4 @@
-.PHONY: all test test-color coverage coverage-cli coverate-html lint format
+.PHONY: all test test-color coverage coverage-cli coverate-html lint format build
 
 all: test-color lint format
 	go mod tidy
@@ -25,3 +25,6 @@ lint:
 format:
 	go install mvdan.cc/gofumpt@latest
 	gofumpt -l -w -extra .
+
+build:
+	go build ./cmd/gofimports

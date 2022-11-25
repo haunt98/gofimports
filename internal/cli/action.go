@@ -9,9 +9,11 @@ import (
 
 type action struct {
 	flags struct {
-		list  bool
-		write bool
-		diff  bool
+		companyPrefix string
+		list          bool
+		write         bool
+		diff          bool
+		verbose       bool
 	}
 }
 
@@ -23,6 +25,8 @@ func (a *action) getFlags(c *cli.Context) {
 	a.flags.list = c.Bool(flagListName)
 	a.flags.write = c.Bool(flagWriteName)
 	a.flags.diff = c.Bool(flagDiffName)
+	a.flags.verbose = c.Bool(flagVerboseName)
+	a.flags.companyPrefix = c.String(flagCompanyPrefixName)
 }
 
 func (a *action) Run(c *cli.Context) error {
@@ -40,14 +44,19 @@ func (a *action) Run(c *cli.Context) error {
 		return a.RunHelp(c)
 	}
 
-	f := imports.NewFormmater(
+	ft, err := imports.NewFormmater(
 		imports.FormatterWithList(a.flags.list),
 		imports.FormatterWithWrite(a.flags.write),
 		imports.FormatterWithDiff(a.flags.diff),
+		imports.FormatterWithVerbose(a.flags.verbose),
+		imports.FormatterWithCompanyPrefix(a.flags.companyPrefix),
 	)
+	if err != nil {
+		return fmt.Errorf("imports: failed to new formatter: %w", err)
+	}
 
 	args := c.Args().Slice()
-	if err := f.Format(args...); err != nil {
+	if err := ft.Format(args...); err != nil {
 		return fmt.Errorf("imports formatter: failed to format %v: %w", args, err)
 	}
 

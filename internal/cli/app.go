@@ -20,6 +20,12 @@ const (
 
 	flagDiffName  = "diff"
 	flagDiffUsage = "show diff"
+
+	flagVerboseName  = "verbose"
+	flagVerboseUsage = "show verbose output, for debug only"
+
+	flagCompanyPrefixName  = "company"
+	flagCompanyPrefixUsage = "company prefix, for example github.com/haunt98"
 )
 
 var (
@@ -54,6 +60,14 @@ func NewApp() *App {
 				Name:    flagDiffName,
 				Usage:   flagDiffUsage,
 				Aliases: flagDiffAliases,
+			},
+			&cli.BoolFlag{
+				Name:  flagVerboseName,
+				Usage: flagVerboseUsage,
+			},
+			&cli.StringFlag{
+				Name:  flagCompanyPrefixName,
+				Usage: flagCompanyPrefixUsage,
 			},
 		},
 		Action: a.Run,
