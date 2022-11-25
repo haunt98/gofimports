@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"golang.org/x/tools/go/packages"
@@ -203,6 +204,14 @@ func (ft *Formatter) groupImports(importsAST map[string]*ast.ImportSpec) (map[st
 			continue
 		}
 	}
+
+	// TODO: not sure if this match gofumpt output, but at lease it is sorted
+	sort.Strings(result[stdImport])
+	sort.Strings(result[thirdPartyImport])
+	if ft.companyPrefix != "" {
+		sort.Strings(result[companyImport])
+	}
+	sort.Strings(result[localImport])
 
 	return result, nil
 }
