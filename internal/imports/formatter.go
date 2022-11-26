@@ -13,6 +13,7 @@ import (
 	"strings"
 	"sync"
 
+	"golang.org/x/mod/modfile"
 	"golang.org/x/tools/go/packages"
 )
 
@@ -25,21 +26,22 @@ const (
 )
 
 var (
-	ErrEmptyPaths      = errors.New("empty paths")
-	ErrNotGoFile       = errors.New("not go file")
-	ErrGoGeneratedFile = errors.New("go generated file")
-	ErrGoModNotExist   = errors.New("go mod not exist")
+	ErrEmptyPaths       = errors.New("empty paths")
+	ErrNotGoFile        = errors.New("not go file")
+	ErrGoGeneratedFile  = errors.New("go generated file")
+	ErrGoModNotExist    = errors.New("go mod not exist")
+	ErrGoModEmptyModule = errors.New("go mod empty module")
 )
 
 // stdPackages -> save std packages for later search
-// packageNames -> map path to its go.mod package name
+// moduleNames -> map path to its go.mod module name
 // formattedPaths -> make sure we not format path more than 1 time
 type Formatter struct {
 	stdPackages      map[string]struct{}
-	packageNames     map[string]string
+	moduleNames      map[string]string
 	formattedPaths   map[string]struct{}
 	companyPrefix    string
-	muPackageNames   sync.RWMutex
+	muModuleNames    sync.RWMutex
 	muFormattedPaths sync.RWMutex
 	isList           bool
 	isWrite          bool
@@ -65,7 +67,7 @@ func NewFormmater(opts ...FormatterOptionFn) (*Formatter, error) {
 	}
 	ft.log("stdPackages: %+v\n", ft.stdPackages)
 
-	ft.packageNames = make(map[string]string)
+	ft.moduleNames = make(map[string]string)
 	ft.formattedPaths = make(map[string]struct{})
 
 	return ft, nil
@@ -143,7 +145,7 @@ func (ft *Formatter) formatFile(path string) error {
 	ft.log("importsAST: %+v\n", importsAST)
 
 	// TODO: Find dir go.mod package name
-	pkgName, err := ft.packageName(path)
+	pkgName, err := ft.moduleName(path)
 	if err != nil {
 		return err
 	}
@@ -251,13 +253,13 @@ func (ft *Formatter) groupImports(importsAST map[string]*ast.ImportSpec) (map[st
 	return result, nil
 }
 
-func (ft *Formatter) packageName(path string) (string, error) {
-	ft.muPackageNames.RLock()
-	if pkgName, ok := ft.packageNames[path]; ok {
-		ft.muPackageNames.RUnlock()
+func (ft *Formatter) moduleName(path string) (string, error) {
+	ft.muModuleNames.RLock()
+	if pkgName, ok := ft.moduleNames[path]; ok {
+		ft.muModuleNames.RUnlock()
 		return pkgName, nil
 	}
-	ft.muPackageNames.RUnlock()
+	ft.muModuleNames.RUnlock()
 
 	// Copy from goimports-reviser
 	// Check path/go.mod first
@@ -286,7 +288,22 @@ func (ft *Formatter) packageName(path string) (string, error) {
 	}
 	ft.log("goModPath: %+v\n", goModPath)
 
-	return "", nil
+	goModPathBytes, err := os.ReadFile(goModPath)
+	if err != nil {
+		return "", fmt.Errorf("os: failed to read file: [%s] %w", goModPath, err)
+	}
+
+	goModFile, err := modfile.Parse(goModPath, goModPathBytes, nil)
+	if err != nil {
+		return "", fmt.Errorf("modfile: failed to parse: [%s] %w", goModPath, err)
+	}
+
+	result := goModFile.Module.Mod.Path
+	if result == "" {
+		return "", ErrGoModEmptyModule
+	}
+
+	return result, nil
 }
 
 // Wrap log.Printf with verbose flag
