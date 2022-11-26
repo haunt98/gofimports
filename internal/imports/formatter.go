@@ -148,7 +148,7 @@ func (ft *Formatter) formatFile(path string) error {
 	}
 
 	if ft.isDiff {
-		if err := diff.Text("before", "after", pathBytes, formattedBytes, os.Stdout); err != nil {
+		if err := diff.Text(path+" before", path+" after", pathBytes, formattedBytes, os.Stdout); err != nil {
 			return fmt.Errorf("diff: failed to slices: %w", err)
 		}
 	}
