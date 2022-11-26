@@ -144,12 +144,11 @@ func (ft *Formatter) formatFile(path string) error {
 	}
 	ft.log("importsAST: %+v\n", importsAST)
 
-	// TODO: Find dir go.mod package name
-	pkgName, err := ft.moduleName(path)
+	moduleName, err := ft.moduleName(path)
 	if err != nil {
 		return err
 	}
-	ft.log("pkgName: %+v\n", pkgName)
+	ft.log("moduleName: %+v\n", moduleName)
 
 	groupImports, err := ft.groupImports(importsAST)
 	if err != nil {
