@@ -219,7 +219,13 @@ func (ft *Formatter) formatImports(
 			continue
 		}
 
+		// Ignore second import decl and more
 		if isExistFirstImportDecl {
+			continue
+		}
+
+		// Ignore empty import
+		if len(genDecl.Specs) == 0 {
 			continue
 		}
 
