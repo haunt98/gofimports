@@ -303,6 +303,10 @@ func (ft *Formatter) moduleName(path string) (string, error) {
 		return "", ErrGoModEmptyModule
 	}
 
+	ft.muModuleNames.Lock()
+	ft.moduleNames[path] = result
+	ft.muModuleNames.Unlock()
+
 	return result, nil
 }
 
