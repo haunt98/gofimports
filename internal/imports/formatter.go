@@ -170,13 +170,9 @@ func (ft *Formatter) formatImports(
 	// Extract imports
 	importSpecs := make([]ast.Spec, 0, len(astFile.Imports))
 	for _, importSpec := range astFile.Imports {
-		if importSpec.Path.Value == "" {
-			continue
-		}
-
-		ft.log("formatImports: importSpec: %+v %+v\n", importSpec.Name.String(), importSpec.Path.Value)
 		importSpecs = append(importSpecs, importSpec)
 	}
+	ft.mustLogImportSpecs("formatImports: importSpecs", importSpecs)
 
 	groupedImportSpecs, err := ft.groupImportSpecs(importSpecs, moduleName)
 	if err != nil {
@@ -254,7 +250,7 @@ func (ft *Formatter) groupImportSpecs(
 		}
 
 		// "github.com/abc/xyz" -> github.com/abc/xyz
-		importPath := strings.Trim(importSpec.Path.Value, "\"")
+		importPath := strings.Trim(importSpec.Path.Value, `"`)
 
 		if _, ok := ft.stdPackages[importPath]; ok {
 			result[stdImport] = append(result[stdImport], importSpec)
