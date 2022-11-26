@@ -8,7 +8,6 @@ import (
 	"go/parser"
 	"go/printer"
 	"go/token"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -290,7 +289,12 @@ func (ft *Formatter) formatImportSpecs(
 
 	if stdImportSpecs, ok := groupedImportSpecs[stdImport]; ok && len(stdImportSpecs) != 0 {
 		for _, importSpec := range stdImportSpecs {
-			result = append(result, importSpec)
+			result = append(result, &ast.ImportSpec{
+				Path: &ast.BasicLit{
+					Value: importSpec.Path.Value,
+					Kind:  token.IMPORT,
+				},
+			})
 		}
 	}
 
@@ -305,7 +309,12 @@ func (ft *Formatter) formatImportSpecs(
 		}
 
 		for _, importSpec := range thirdPartImportSpecs {
-			result = append(result, importSpec)
+			result = append(result, &ast.ImportSpec{
+				Path: &ast.BasicLit{
+					Value: importSpec.Path.Value,
+					Kind:  token.IMPORT,
+				},
+			})
 		}
 	}
 
@@ -321,7 +330,12 @@ func (ft *Formatter) formatImportSpecs(
 			}
 
 			for _, importSpec := range companyImportSpecs {
-				result = append(result, importSpec)
+				result = append(result, &ast.ImportSpec{
+					Path: &ast.BasicLit{
+						Value: importSpec.Path.Value,
+						Kind:  token.IMPORT,
+					},
+				})
 			}
 		}
 	}
@@ -337,7 +351,12 @@ func (ft *Formatter) formatImportSpecs(
 		}
 
 		for _, importSpec := range localImportSpecs {
-			result = append(result, importSpec)
+			result = append(result, &ast.ImportSpec{
+				Path: &ast.BasicLit{
+					Value: importSpec.Path.Value,
+					Kind:  token.IMPORT,
+				},
+			})
 		}
 	}
 
@@ -400,32 +419,4 @@ func (ft *Formatter) moduleName(path string) (string, error) {
 	ft.muModuleNames.Unlock()
 
 	return result, nil
-}
-
-// Wrap log.Printf with verbose flag
-func (ft *Formatter) log(format string, v ...any) {
-	if ft.isVerbose {
-		log.Printf(format, v...)
-	}
-}
-
-func (ft *Formatter) logImportSpecs(logPrefix string, importSpecs []*ast.ImportSpec) {
-	if ft.isVerbose {
-		for _, importSpec := range importSpecs {
-			log.Printf("%s: importSpec: %+v %+v\n", logPrefix, importSpec.Name.String(), importSpec.Path.Value)
-		}
-	}
-}
-
-func (ft *Formatter) mustLogImportSpecs(logPrefix string, importSpecs []ast.Spec) {
-	if ft.isVerbose {
-		for _, importSpec := range importSpecs {
-			importSpec, ok := importSpec.(*ast.ImportSpec)
-			if !ok {
-				continue
-			}
-
-			log.Printf("%s: importSpec: %+v %+v\n", logPrefix, importSpec.Name.String(), importSpec.Path.Value)
-		}
-	}
 }
