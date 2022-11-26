@@ -66,7 +66,7 @@ func NewFormmater(opts ...FormatterOptionFn) (*Formatter, error) {
 	for _, stdPackage := range stdPackages {
 		ft.stdPackages[stdPackage.PkgPath] = struct{}{}
 	}
-	ft.log("NewFormmater: stdPackages: %+v\n", ft.stdPackages)
+	// ft.log("NewFormmater: stdPackages: %+v\n", ft.stdPackages)
 
 	ft.moduleNames = make(map[string]string)
 	ft.formattedPaths = make(map[string]struct{})
@@ -193,9 +193,9 @@ func (ft *Formatter) formatImports(
 	ft.mustLogImportSpecs("formatImports: formattedImportSpecs: ", formattedImportSpecs)
 
 	// Combine multi import decl into one
-	isMultiImportDecl := false
 	isExistFirstImportDecl := false
 	decls := make([]ast.Decl, 0, len(astFile.Decls))
+
 	for _, decl := range astFile.Decls {
 		genDecl, ok := decl.(*ast.GenDecl)
 		if !ok {
@@ -209,12 +209,6 @@ func (ft *Formatter) formatImports(
 		}
 
 		if isExistFirstImportDecl {
-			isMultiImportDecl = true
-			// TODO: explain this
-			storedGenDecl, ok := decls[len(decls)-1].(*ast.GenDecl)
-			if ok && storedGenDecl.Tok == token.IMPORT {
-				storedGenDecl.Rparen = genDecl.End()
-			}
 			continue
 		}
 
@@ -224,9 +218,8 @@ func (ft *Formatter) formatImports(
 		decls = append(decls, genDecl)
 	}
 
-	if isMultiImportDecl {
-		astFile.Decls = decls
-	}
+	// Update ast decls
+	astFile.Decls = decls
 
 	// Print formatted bytes from formatted ast
 	var formattedBytes []byte
