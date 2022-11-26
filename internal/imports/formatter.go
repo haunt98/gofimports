@@ -13,6 +13,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/pkg/diff"
 	"golang.org/x/mod/modfile"
 	"golang.org/x/tools/go/packages"
 )
@@ -133,8 +134,23 @@ func (ft *Formatter) formatFile(path string) error {
 	}
 	ft.log("formatFile: moduleName: %+v\n", moduleName)
 
-	if err := ft.formatImports(path, pathBytes, moduleName); err != nil {
+	formattedBytes, err := ft.formatImports(path, pathBytes, moduleName)
+	if err != nil {
 		return err
+	}
+
+	if ft.isList {
+		fmt.Println(path)
+	}
+
+	if ft.isWrite {
+		ft.log("TODO: write to file\n")
+	}
+
+	if ft.isDiff {
+		if err := diff.Text("before", "after", pathBytes, formattedBytes, os.Stdout); err != nil {
+			return fmt.Errorf("diff: failed to slices: %w", err)
+		}
 	}
 
 	ft.muFormattedPaths.Lock()
@@ -149,7 +165,7 @@ func (ft *Formatter) formatImports(
 	path string,
 	pathBytes []byte,
 	moduleName string,
-) error {
+) ([]byte, error) {
 	// Parse ast
 	fset := token.NewFileSet()
 
@@ -158,12 +174,12 @@ func (ft *Formatter) formatImports(
 
 	astFile, err := parser.ParseFile(fset, path, pathBytes, parserMode)
 	if err != nil {
-		return fmt.Errorf("parser: failed to parse file [%s]: %w", path, err)
+		return nil, fmt.Errorf("parser: failed to parse file [%s]: %w", path, err)
 	}
 
 	// Ignore generated file
 	if isGoGenerated(astFile) {
-		return ErrGoGeneratedFile
+		return nil, ErrGoGeneratedFile
 	}
 
 	// Extract imports
@@ -175,7 +191,7 @@ func (ft *Formatter) formatImports(
 
 	groupedImportSpecs, err := ft.groupImportSpecs(importSpecs, moduleName)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	formattedImportSpecs, err := ft.formatImportSpecs(
@@ -183,7 +199,7 @@ func (ft *Formatter) formatImports(
 		groupedImportSpecs,
 	)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	ft.mustLogImportSpecs("formatImports: formattedImportSpecs: ", formattedImportSpecs)
 
@@ -220,12 +236,10 @@ func (ft *Formatter) formatImports(
 	var formattedBytes []byte
 	formattedBuffer := bytes.NewBuffer(formattedBytes)
 	if err := printer.Fprint(formattedBuffer, fset, astFile); err != nil {
-		return err
+		return nil, err
 	}
 
-	fmt.Println(formattedBuffer.String())
-
-	return nil
+	return formattedBuffer.Bytes(), nil
 }
 
 // Copy from goimports-reviser
