@@ -189,7 +189,10 @@ func (ft *Formatter) formatImports(
 	}
 	ft.mustLogImportSpecs("formatImports: importSpecs", importSpecs)
 
-	groupedImportSpecs, err := ft.groupImportSpecs(importSpecs, moduleName)
+	groupedImportSpecs, err := ft.groupImportSpecs(
+		importSpecs,
+		moduleName,
+	)
 	if err != nil {
 		return nil, err
 	}

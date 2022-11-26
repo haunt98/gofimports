@@ -2,6 +2,12 @@
 
 goimports with my opinionated preferences.
 
+## Roadmap
+
+- [ ] Diff with color
+- [ ] Add profiling
+- [ ] Use profiling to improve performance
+
 ## Thanks
 
 - [goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports)
