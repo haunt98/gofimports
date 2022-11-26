@@ -287,39 +287,8 @@ func (ft *Formatter) formatImportSpecs(
 ) ([]ast.Spec, error) {
 	result := make([]ast.Spec, 0, len(importSpecs))
 
-	if stdImportSpecs, ok := groupedImportSpecs[stdImport]; ok && len(stdImportSpecs) != 0 {
-		for _, importSpec := range stdImportSpecs {
-			result = append(result, &ast.ImportSpec{
-				Path: &ast.BasicLit{
-					Value: importSpec.Path.Value,
-					Kind:  token.IMPORT,
-				},
-			})
-		}
-	}
-
-	if thirdPartImportSpecs, ok := groupedImportSpecs[thirdPartyImport]; ok && len(thirdPartImportSpecs) != 0 {
-		if len(result) != 0 {
-			result = append(result, &ast.ImportSpec{
-				Path: &ast.BasicLit{
-					Value: "",
-					Kind:  token.STRING,
-				},
-			})
-		}
-
-		for _, importSpec := range thirdPartImportSpecs {
-			result = append(result, &ast.ImportSpec{
-				Path: &ast.BasicLit{
-					Value: importSpec.Path.Value,
-					Kind:  token.IMPORT,
-				},
-			})
-		}
-	}
-
-	if ft.companyPrefix != "" {
-		if companyImportSpecs, ok := groupedImportSpecs[companyImport]; ok && len(companyImportSpecs) != 0 {
+	appendToResultFn := func(groupImportType string) {
+		if specs, ok := groupedImportSpecs[groupImportType]; ok && len(specs) != 0 {
 			if len(result) != 0 {
 				result = append(result, &ast.ImportSpec{
 					Path: &ast.BasicLit{
@@ -329,10 +298,10 @@ func (ft *Formatter) formatImportSpecs(
 				})
 			}
 
-			for _, importSpec := range companyImportSpecs {
+			for _, spec := range specs {
 				result = append(result, &ast.ImportSpec{
 					Path: &ast.BasicLit{
-						Value: importSpec.Path.Value,
+						Value: ft.importNameAndPath(spec),
 						Kind:  token.IMPORT,
 					},
 				})
@@ -340,25 +309,12 @@ func (ft *Formatter) formatImportSpecs(
 		}
 	}
 
-	if localImportSpecs, ok := groupedImportSpecs[localImport]; ok && len(localImportSpecs) != 0 {
-		if len(result) != 0 {
-			result = append(result, &ast.ImportSpec{
-				Path: &ast.BasicLit{
-					Value: "",
-					Kind:  token.STRING,
-				},
-			})
-		}
-
-		for _, importSpec := range localImportSpecs {
-			result = append(result, &ast.ImportSpec{
-				Path: &ast.BasicLit{
-					Value: importSpec.Path.Value,
-					Kind:  token.IMPORT,
-				},
-			})
-		}
+	appendToResultFn(stdImport)
+	appendToResultFn(thirdPartyImport)
+	if ft.companyPrefix != "" {
+		appendToResultFn(companyImport)
 	}
+	appendToResultFn(localImport)
 
 	return result, nil
 }
@@ -419,4 +375,16 @@ func (ft *Formatter) moduleName(path string) (string, error) {
 	ft.muModuleNames.Unlock()
 
 	return result, nil
+}
+
+func (ft *Formatter) importNameAndPath(importSpec *ast.ImportSpec) string {
+	if importSpec == nil {
+		return ""
+	}
+
+	if importSpec.Name != nil {
+		return importSpec.Name.String() + " " + importSpec.Path.Value
+	}
+
+	return importSpec.Path.Value
 }
