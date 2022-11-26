@@ -150,7 +150,7 @@ func (ft *Formatter) formatFile(path string) error {
 	}
 	ft.log("moduleName: %+v\n", moduleName)
 
-	groupImports, err := ft.groupImports(importsAST)
+	groupImports, err := ft.groupImports(importsAST, moduleName)
 	if err != nil {
 		return err
 	}
@@ -222,7 +222,10 @@ func (ft *Formatter) parseImports(pathASTFile *ast.File) (map[string]*ast.Import
 
 // Copy from goimports-reviser
 // Group imports to std, third-party, company if exist, local
-func (ft *Formatter) groupImports(importsAST map[string]*ast.ImportSpec) (map[string][]string, error) {
+func (ft *Formatter) groupImports(
+	importsAST map[string]*ast.ImportSpec,
+	moduleName string,
+) (map[string][]string, error) {
 	result := make(map[string][]string)
 	result[stdImport] = make([]string, 0, 8)
 	result[thirdPartyImport] = make([]string, 0, 8)
@@ -239,7 +242,27 @@ func (ft *Formatter) groupImports(importsAST map[string]*ast.ImportSpec) (map[st
 			result[stdImport] = append(result[stdImport], importNameAndPath)
 			continue
 		}
+
+		if strings.HasPrefix(importPath, moduleName) {
+			result[localImport] = append(result[localImport], importNameAndPath)
+			continue
+		}
+
+		if ft.companyPrefix != "" &&
+			strings.HasPrefix(importPath, ft.companyPrefix) {
+			result[companyImport] = append(result[companyImport], importNameAndPath)
+			continue
+		}
+
+		result[thirdPartyImport] = append(result[thirdPartyImport], importNameAndPath)
 	}
+
+	ft.log("std %+v\n", result[stdImport])
+	ft.log("third-party %+v\n", result[thirdPartyImport])
+	if ft.companyPrefix != "" {
+		ft.log("company %+v\n", result[companyImport])
+	}
+	ft.log("local %+v\n", result[localImport])
 
 	// TODO: not sure if this match gofumpt output, but at lease it is sorted
 	sort.Strings(result[stdImport])
