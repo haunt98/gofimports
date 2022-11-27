@@ -140,11 +140,13 @@ func (ft *Formatter) formatFile(path string) error {
 	}
 
 	if ft.isList {
-		fmt.Println(path)
+		fmt.Println("Formatted: ", path)
 	}
 
 	if ft.isWrite {
-		ft.log("TODO: write to file\n")
+		if err := os.WriteFile(path, formattedBytes, 0o600); err != nil {
+			return fmt.Errorf("os: failed to write file: [%s] %w", path, err)
+		}
 	}
 
 	if ft.isDiff {
