@@ -248,20 +248,6 @@ func (ft *Formatter) formatImports(
 		return nil, err
 	}
 
-	// Post process to sort imports using default Go
-	// TODO: find a way to use ast.SortImports without parse ast again
-	formattedASTFile, err := parser.ParseFile(fset, path, formattedBuffer.Bytes(), parserMode)
-	if err != nil {
-		return nil, fmt.Errorf("parser: failed to parse file [%s]: %w", path, err)
-	}
-
-	ast.SortImports(fset, formattedASTFile)
-
-	formattedBuffer.Reset()
-	if err := printer.Fprint(formattedBuffer, fset, astFile); err != nil {
-		return nil, err
-	}
-
 	return formattedBuffer.Bytes(), nil
 }
 
