@@ -8,6 +8,7 @@ import (
 	"go/parser"
 	"go/printer"
 	"go/token"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
@@ -104,7 +105,26 @@ func (ft *Formatter) Format(paths ...string) error {
 	return nil
 }
 
+// Copy from gofumpt
 func (ft *Formatter) formatDir(path string) error {
+	if err := filepath.WalkDir(path, func(path string, dirEntry fs.DirEntry, err error) error {
+		if filepath.Base(path) == "vendor" {
+			return filepath.SkipDir
+		}
+
+		if err != nil {
+			return err
+		}
+
+		if dirEntry.IsDir() {
+			return nil
+		}
+
+		return ft.formatFile(path)
+	}); err != nil {
+		return fmt.Errorf("filepath: failed to walk dir: [%s] %w", path, err)
+	}
+
 	return nil
 }
 
