@@ -23,8 +23,10 @@ lint:
 	golangci-lint run ./...
 
 format:
+	go install github.com/haunt98/gofimports/cmd/gofimports@latest
 	go install mvdan.cc/gofumpt@latest
-	gofumpt -l -w -extra .
+	gofimports -w -company github.com/make-go-great .
+	gofumpt -w -extra .
 
 build:
 	go build ./cmd/gofimports

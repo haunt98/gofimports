@@ -3,8 +3,9 @@ package cli
 import (
 	"fmt"
 
-	"github.com/haunt98/gofimports/internal/imports"
 	"github.com/urfave/cli/v2"
+
+	"github.com/haunt98/gofimports/internal/imports"
 )
 
 type action struct {

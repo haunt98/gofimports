@@ -28,6 +28,21 @@ go install github.com/haunt98/gofimports/cmd/gofimports@latest
 gofimports -l -company github.com/make-go-great -w -d ./internal
 ```
 
+Example result:
+
+```go
+import (
+	"fmt"
+
+	"github.com/urfave/cli/v2"
+    "github.com/pkg/diff"
+
+	"github.com/make-go-great/color-go"
+
+	"github.com/haunt98/gofimports/internal/imports"
+)
+```
+
 ## Roadmap
 
 - [ ] Diff with color
