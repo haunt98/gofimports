@@ -120,7 +120,16 @@ func (ft *Formatter) formatDir(path string) error {
 			return nil
 		}
 
-		return ft.formatFile(path)
+		if err := ft.formatFile(path); err != nil {
+			if errors.Is(err, ErrNotGoFile) ||
+				errors.Is(err, ErrGoGeneratedFile) {
+				return nil
+			}
+
+			return err
+		}
+
+		return nil
 	}); err != nil {
 		return fmt.Errorf("filepath: failed to walk dir: [%s] %w", path, err)
 	}
