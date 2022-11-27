@@ -35,7 +35,7 @@ import (
 	"fmt"
 
 	"github.com/urfave/cli/v2"
-    "github.com/pkg/diff"
+	"github.com/pkg/diff"
 
 	"github.com/make-go-great/color-go"
 
