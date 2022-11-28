@@ -1,5 +1,8 @@
 # gofimports
 
+[![Go](https://github.com/haunt98/gofimports/workflows/Go/badge.svg?branch=main)](https://github.com/haunt98/gofimports/actions)
+[![Go Reference](https://pkg.go.dev/badge/github.com/haunt98/gofimports.svg)](https://pkg.go.dev/github.com/haunt98/gofimports)
+
 Group Go imports with my opinionated preferences.
 
 First is standard.
@@ -40,14 +43,14 @@ Example result:
 
 ```go
 import (
-	"fmt"
+    "fmt"
 
-	"github.com/urfave/cli/v2"
-	"github.com/pkg/diff"
+    "github.com/urfave/cli/v2"
+    "github.com/pkg/diff"
 
-	"github.com/make-go-great/color-go"
+    "github.com/make-go-great/color-go"
 
-	"github.com/haunt98/gofimports/internal/imports"
+    "github.com/haunt98/gofimports/internal/imports"
 )
 ```
 
