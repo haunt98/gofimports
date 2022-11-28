@@ -36,7 +36,9 @@ var (
 )
 
 // stdPackages -> save std packages for later search
+//
 // moduleNames -> map path to its go.mod module name
+//
 // formattedPaths -> make sure we not format path more than 1 time
 type Formatter struct {
 	stdPackages      map[string]struct{}
