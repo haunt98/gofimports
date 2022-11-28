@@ -200,6 +200,7 @@ func (ft *Formatter) formatImports(
 	// Parse ast
 	fset := token.NewFileSet()
 
+	// Copy from gofumpt
 	parserMode := parser.Mode(0)
 	parserMode |= parser.ParseComments
 	parserMode |= parser.SkipObjectResolution
@@ -276,8 +277,16 @@ func (ft *Formatter) formatImports(
 	// Print formatted bytes from formatted ast
 	var formattedBytes []byte
 	formattedBuffer := bytes.NewBuffer(formattedBytes)
-	if err := printer.Fprint(formattedBuffer, fset, astFile); err != nil {
-		return nil, err
+
+	// Copy from goimports
+	printerMode := printer.UseSpaces
+	printerMode |= printer.TabIndent
+	printerCfg := &printer.Config{
+		Mode:     printerMode,
+		Tabwidth: 8,
+	}
+	if err := printerCfg.Fprint(formattedBuffer, fset, astFile); err != nil {
+		return nil, fmt.Errorf("printer: failed to fprint: %w", err)
 	}
 
 	return formattedBuffer.Bytes(), nil
