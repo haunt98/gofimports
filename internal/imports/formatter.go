@@ -191,7 +191,7 @@ func (ft *Formatter) formatFile(path string) error {
 	return nil
 }
 
-// Copy from gofumpt, goimports-reviser
+// Copy from goimports, gofumpt, goimports-reviser
 func (ft *Formatter) formatImports(
 	path string,
 	pathBytes []byte,
@@ -200,7 +200,9 @@ func (ft *Formatter) formatImports(
 	// Parse ast
 	fset := token.NewFileSet()
 
-	parserMode := parser.ParseComments | parser.SkipObjectResolution
+	parserMode := parser.Mode(0)
+	parserMode |= parser.ParseComments
+	parserMode |= parser.SkipObjectResolution
 
 	astFile, err := parser.ParseFile(fset, path, pathBytes, parserMode)
 	if err != nil {
