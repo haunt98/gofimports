@@ -354,12 +354,20 @@ func (ft *Formatter) formatImportSpecs(
 			}
 
 			for _, spec := range specs {
-				result = append(result, &ast.ImportSpec{
+				newSpec := &ast.ImportSpec{
 					Path: &ast.BasicLit{
-						Value: ft.importNameAndPath(spec),
-						Kind:  token.IMPORT,
+						Value: spec.Path.Value,
+						Kind:  token.STRING,
 					},
-				})
+				}
+
+				if spec.Name != nil {
+					newSpec.Name = &ast.Ident{
+						Name: spec.Name.Name,
+					}
+				}
+
+				result = append(result, newSpec)
 			}
 		}
 	}
@@ -430,16 +438,4 @@ func (ft *Formatter) moduleName(path string) (string, error) {
 	ft.muModuleNames.Unlock()
 
 	return result, nil
-}
-
-func (ft *Formatter) importNameAndPath(importSpec *ast.ImportSpec) string {
-	if importSpec == nil {
-		return ""
-	}
-
-	if importSpec.Name != nil {
-		return importSpec.Name.String() + " " + importSpec.Path.Value
-	}
-
-	return importSpec.Path.Value
 }
