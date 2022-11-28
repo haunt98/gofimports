@@ -7,7 +7,15 @@ Then third party, then company if exist.
 The last is local.
 
 Also main selling point of this is group imports not sort imports.
-So please run `gofumpt` or `gofmt` after this.
+So please run `gofumpt` or `gofmt` after running this tool.
+
+Under the hood, this tool get all imports, then group them into 4 groups (std, third party, company, local).
+Remember, no sort here.
+Then insert empty import (empty path) between each group to get final imports
+Then update Go ast decls import with final imports.
+
+There is side effect of course, because we do not create empty line but we add empty import, so there is trailing space in that line (Go indent that empty impoty).
+That why I suggest you need to re-format after.
 
 ## Install
 
