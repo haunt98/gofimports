@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## v0.0.2 (2022-11-28)
+
+### Added
+
+- feat: custom printer ast (2022-11-28)
+
+- feat: add parser.SkipObjectResolution (2022-11-28)
+
+### Others
+
+- chore: add badges (2022-11-28)
+
+- chore: better explain side effect README (2022-11-28)
+
+- refactor: no need importNameAndPath (2022-11-28)
+
+- refactor: rewrite parser mode (2022-11-28)
+
+- chore: fix whitespace (2022-11-28)
+
+- chore: format this project using this project :) (2022-11-28)
+
+- chore(changelog): generate v0.0.1 (2022-11-28)
+
 ## v0.0.1 (2022-11-28)
 
 ### Added
