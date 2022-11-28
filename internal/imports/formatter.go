@@ -194,6 +194,15 @@ func (ft *Formatter) formatFile(path string) error {
 }
 
 // Copy from goimports, gofumpt, goimports-reviser
+// First parse ast
+//
+// # Then group imports
+//
+// # Then format imports
+//
+// # Then update ast decls
+//
+// Then print ast
 func (ft *Formatter) formatImports(
 	path string,
 	pathBytes []byte,
@@ -347,6 +356,7 @@ func (ft *Formatter) groupImportSpecs(
 }
 
 // Copy from goimports-reviser
+// Insert empty import (empty path) between groups
 func (ft *Formatter) formatImportSpecs(
 	importSpecs []ast.Spec,
 	groupedImportSpecs map[string][]*ast.ImportSpec,
@@ -394,6 +404,8 @@ func (ft *Formatter) formatImportSpecs(
 }
 
 // Copy from goimports-reviser
+// Get module name from go.mod of path
+// If current path doesn't have go.mod, recursive find its parent path
 func (ft *Formatter) moduleName(path string) (string, error) {
 	ft.muModuleNames.RLock()
 	if pkgName, ok := ft.moduleNames[path]; ok {
