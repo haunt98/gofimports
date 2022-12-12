@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/make-go-great/color-go v0.4.1
 	github.com/pkg/diff v0.0.0-20210226163009-20ebb0f2a09e
-	github.com/urfave/cli/v2 v2.23.6
+	github.com/urfave/cli/v2 v2.23.7
 	golang.org/x/mod v0.7.0
 	golang.org/x/tools v0.4.0
 )
