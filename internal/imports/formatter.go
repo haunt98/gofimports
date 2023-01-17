@@ -38,6 +38,13 @@ var (
 	ErrGoModEmptyModule = errors.New("go mod empty module")
 )
 
+// https://pkg.go.dev/sync#Pool
+var bufPool = sync.Pool{
+	New: func() any {
+		return new(bytes.Buffer)
+	},
+}
+
 // stdPackages -> save std packages for later search
 //
 // moduleNames -> map path to its go.mod module name
@@ -287,12 +294,17 @@ func (ft *Formatter) formatImports(
 	// Second update
 	dstFile.Decls[0].(*dst.GenDecl).Specs = formattedGenSpecs
 
-	var buf bytes.Buffer
-	if err := decorator.Fprint(&buf, dstFile); err != nil {
+	b := bufPool.Get().(*bytes.Buffer)
+	b.Reset()
+	defer bufPool.Put(b)
+
+	if err := decorator.Fprint(b, dstFile); err != nil {
 		return nil, fmt.Errorf("decorator: failed to fprint [%s]: %w", path, err)
 	}
 
-	return buf.Bytes(), nil
+	result := make([]byte, b.Len())
+	copy(result, b.Bytes())
+	return result, nil
 }
 
 func (ft *Formatter) groupDSTImportSpecs(importSpecs []*dst.ImportSpec, moduleName string) (map[string][]*dst.ImportSpec, error) {
