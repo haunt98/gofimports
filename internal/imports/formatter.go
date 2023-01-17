@@ -234,7 +234,7 @@ func (ft *Formatter) formatImports(
 	if err != nil {
 		return nil, fmt.Errorf("decorator: failed to parse file [%s]: %w", path, err)
 	}
-	if len(dstFile.Imports) == 0 {
+	if len(dstFile.Imports) == 0 || len(dstFile.Decls) == 0 {
 		return nil, ErrEmptyImport
 	}
 	ft.logDSTImportSpecs("formatImports: dstImportSpecs", dstFile.Imports)
@@ -250,7 +250,27 @@ func (ft *Formatter) formatImports(
 	}
 	ft.logDSTImportSpecs("formatImports: formattedDSTImportSpecs: ", formattedDSTImportSpecs)
 
+	// First update
 	dstFile.Imports = formattedDSTImportSpecs
+
+	genSpecs := dstFile.Decls[0].(*dst.GenDecl).Specs
+	formattedGenSpecs := make([]dst.Spec, 0, len(genSpecs))
+
+	// Append all imports first
+	for _, importSpec := range formattedDSTImportSpecs {
+		formattedGenSpecs = append(formattedGenSpecs, importSpec)
+	}
+
+	// Append all non imports later
+	for _, genSpec := range genSpecs {
+		if _, ok := genSpec.(*dst.ImportSpec); !ok {
+			formattedGenSpecs = append(formattedGenSpecs, genSpec)
+			continue
+		}
+	}
+
+	// Second update
+	dstFile.Decls[0].(*dst.GenDecl).Specs = formattedGenSpecs
 
 	var buf bytes.Buffer
 	if err := decorator.Fprint(&buf, dstFile); err != nil {
