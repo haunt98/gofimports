@@ -1,4 +1,4 @@
-.PHONY: all test test-color coverage coverage-cli coverate-html lint format build
+.PHONY: all test test-color coverage coverage-cli coverate-html lint format build clean docs
 
 all: test-color lint format
 	go mod tidy
@@ -33,3 +33,7 @@ build: clean
 
 clean:
 	rm -rf gofimports
+
+docs:
+	go install go101.org/golds@latest
+	golds ./...
