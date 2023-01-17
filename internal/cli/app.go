@@ -13,6 +13,9 @@ const (
 	usage = "goimports with my opinionated preferences"
 
 	// Inspiration from gofmt flags
+	flagCompanyPrefixName  = "company"
+	flagCompanyPrefixUsage = "company prefix, for example github.com/haunt98"
+
 	flagListName  = "list"
 	flagListUsage = "list files will be changed"
 
@@ -25,8 +28,8 @@ const (
 	flagVerboseName  = "verbose"
 	flagVerboseUsage = "show verbose output, for debug only"
 
-	flagCompanyPrefixName  = "company"
-	flagCompanyPrefixUsage = "company prefix, for example github.com/haunt98"
+	flagProfilerName  = "profiler"
+	flagProfilerUsage = "go profiler, for debug only"
 )
 
 var (
@@ -47,6 +50,10 @@ func NewApp() *App {
 		Name:  name,
 		Usage: usage,
 		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:  flagCompanyPrefixName,
+				Usage: flagCompanyPrefixUsage,
+			},
 			&cli.BoolFlag{
 				Name:    flagListName,
 				Usage:   flagListUsage,
@@ -66,9 +73,9 @@ func NewApp() *App {
 				Name:  flagVerboseName,
 				Usage: flagVerboseUsage,
 			},
-			&cli.StringFlag{
-				Name:  flagCompanyPrefixName,
-				Usage: flagCompanyPrefixUsage,
+			&cli.BoolFlag{
+				Name:  flagProfilerName,
+				Usage: flagProfilerUsage,
 			},
 		},
 		Action: a.Run,
