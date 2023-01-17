@@ -28,5 +28,8 @@ format:
 	gofimports -w -company github.com/make-go-great .
 	gofumpt -w -extra .
 
-build:
+build: clean
 	go build ./cmd/gofimports
+
+clean:
+	rm -rf gofimports
