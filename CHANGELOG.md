@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v0.0.5 (2023-01-17)
+
+### Added
+
+- feat: cache module name even when read dir to improve perf (2023-01-17)
+
+- feat: use sync.Pool to reuse bytes.Buffer (2023-01-17)
+
+- feat: add profiler (2023-01-17)
+
+- feat: add go profiler (2023-01-17)
+
+### Others
+
+- chore(changelog): generate v0.0.4 (2023-01-17)
+
 ## v0.0.4 (2023-01-17)
 
 ### Added
