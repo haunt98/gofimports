@@ -142,6 +142,13 @@ func (ft *Formatter) formatDir(path string) error {
 		}
 
 		if dirEntry.IsDir() {
+			// Get module name ASAP to cache it
+			moduleName, err := ft.moduleName(path)
+			if err != nil {
+				return err
+			}
+			ft.log("formatFile: moduleName: [%s]\n", moduleName)
+
 			return nil
 		}
 
@@ -401,6 +408,13 @@ func (ft *Formatter) moduleName(path string) (string, error) {
 	dirPath := filepath.Clean(path)
 	var goModPath string
 	for {
+		ft.muModuleNames.RLock()
+		if pkgName, ok := ft.moduleNames[dirPath]; ok {
+			ft.muModuleNames.RUnlock()
+			return pkgName, nil
+		}
+		ft.muModuleNames.RUnlock()
+
 		goModPath = filepath.Join(dirPath, "go.mod")
 		fileInfo, err := os.Stat(goModPath)
 		if err == nil && !fileInfo.IsDir() {
