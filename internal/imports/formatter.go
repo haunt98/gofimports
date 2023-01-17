@@ -334,6 +334,10 @@ func (ft *Formatter) formatDSTImportSpecs(groupedImportSpecs map[string][]*dst.I
 	appendToResultFn(companyImport)
 	appendToResultFn(localImport)
 
+	if len(result) == 0 {
+		return result, nil
+	}
+
 	result[len(result)-1].Decs.After = dst.NewLine
 
 	return result, nil
