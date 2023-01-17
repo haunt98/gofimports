@@ -244,7 +244,8 @@ func (ft *Formatter) formatImports(
 		return nil, ErrGoGeneratedFile
 	}
 
-	dstFile, err := decorator.Parse(pathBytes)
+	dec := decorator.NewDecorator(fset)
+	dstFile, err := dec.DecorateFile(astFile)
 	if err != nil {
 		return nil, fmt.Errorf("decorator: failed to parse file [%s]: %w", path, err)
 	}
