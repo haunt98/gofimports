@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## v0.0.4 (2023-01-17)
+
+### Added
+
+- feat: improve perf by use astFile for dstFile (2023-01-17)
+
+- feat: use errgroup to improve perf (2023-01-17)
+
+- feat: use uber-go/automaxprocs (2023-01-17)
+
+### Fixed
+
+- fix: update 2 times with dstFile (2023-01-17)
+
+### Others
+
+- chore: re-format (2023-01-17)
+
+- chore: log flags when verbose (2023-01-17)
+
+- chore: remove buggy side effect (2023-01-17)
+
+- chore(changelog): generate v0.0.3 (2023-01-17)
+
 ## v0.0.3 (2023-01-17)
 
 ### Added
