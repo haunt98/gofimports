@@ -1,5 +1,39 @@
 # CHANGELOG
 
+## v0.0.3 (2023-01-17)
+
+### Added
+
+- feat: ignore empty imports (2023-01-17)
+
+- feat: switch to use dst (2023-01-17)
+
+### Fixed
+
+- fix: panic if format import spec empty (2023-01-17)
+
+### Others
+
+- chore: reformat a little bit (2023-01-17)
+
+- chore: use bytes.Equal instead of bytes.Compare (2023-01-17)
+
+- chore: add make clean (2023-01-17)
+
+- chore(deps): bump golang.org/x/tools from 0.4.0 to 0.5.0 (2023-01-05)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.23.6 to 2.23.7 (2022-12-12)
+
+- chore(deps): bump golang.org/x/tools from 0.3.0 to 0.4.0 (2022-12-07)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.23.5 to 2.23.6 (2022-12-05)
+
+- chore: more comment (2022-11-28)
+
+- chore: fix typo (2022-11-28)
+
+- chore(changelog): generate v0.0.2 (2022-11-28)
+
 ## v0.0.2 (2022-11-28)
 
 ### Added
