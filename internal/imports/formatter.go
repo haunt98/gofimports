@@ -32,6 +32,7 @@ var (
 	ErrNotGoFile        = errors.New("not go file")
 	ErrGoGeneratedFile  = errors.New("go generated file")
 	ErrAlreadyFormatted = errors.New("already formatted")
+	ErrEmptyImport      = errors.New("empty import")
 	ErrGoModNotExist    = errors.New("go mod not exist")
 	ErrGoModEmptyModule = errors.New("go mod empty module")
 )
@@ -201,16 +202,11 @@ func (ft *Formatter) formatFile(path string) error {
 	return nil
 }
 
-// Copy from goimports, gofumpt, goimports-reviser
-// First parse ast
-//
-// # Then group imports
-//
-// # Then format imports
-//
-// # Then update ast decls
-//
-// Then print ast
+// Copy from goimports, gofumpt, goimports-reviser.
+// First parse ast.
+// Then group imports.
+// Then format imports.
+// Then print.
 func (ft *Formatter) formatImports(
 	path string,
 	pathBytes []byte,
@@ -237,6 +233,9 @@ func (ft *Formatter) formatImports(
 	dstFile, err := decorator.Parse(pathBytes)
 	if err != nil {
 		return nil, fmt.Errorf("decorator: failed to parse file [%s]: %w", path, err)
+	}
+	if len(dstFile.Imports) == 0 {
+		return nil, ErrEmptyImport
 	}
 	ft.logDSTImportSpecs("formatImports: dstImportSpecs", dstFile.Imports)
 
@@ -406,5 +405,6 @@ func (ft *Formatter) moduleName(path string) (string, error) {
 func (ft *Formatter) isIgnoreError(err error) bool {
 	return errors.Is(err, ErrNotGoFile) ||
 		errors.Is(err, ErrGoGeneratedFile) ||
-		errors.Is(err, ErrAlreadyFormatted)
+		errors.Is(err, ErrAlreadyFormatted) ||
+		errors.Is(err, ErrEmptyImport)
 }
