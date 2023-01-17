@@ -174,7 +174,7 @@ func (ft *Formatter) formatFile(path string) error {
 		return err
 	}
 
-	if bytes.Compare(pathBytes, formattedBytes) == 0 {
+	if bytes.Equal(pathBytes, formattedBytes) {
 		return ErrAlreadyFormatted
 	}
 
