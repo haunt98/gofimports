@@ -13,6 +13,7 @@
 # Go
 coverage.out
 vendor
+*.prof
 
 # GoReleaser
 dist

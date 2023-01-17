@@ -55,7 +55,7 @@ func (a *action) Run(c *cli.Context) error {
 	}
 
 	if a.flags.profiler {
-		f, err := os.Create("cpuprofile")
+		f, err := os.Create("cpu.prof")
 		if err != nil {
 			return fmt.Errorf("os: failed to create: %w", err)
 		}
@@ -84,7 +84,7 @@ func (a *action) Run(c *cli.Context) error {
 	}
 
 	if a.flags.profiler {
-		f, err := os.Create("memprofile")
+		f, err := os.Create("mem.prof")
 		if err != nil {
 			return fmt.Errorf("os: failed to create: %w", err)
 		}
