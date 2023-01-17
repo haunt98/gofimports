@@ -45,11 +45,9 @@ var bufPool = sync.Pool{
 	},
 }
 
-// stdPackages -> save std packages for later search
-//
-// moduleNames -> map path to its go.mod module name
-//
-// formattedPaths -> make sure we not format path more than 1 time
+// stdPackages -> save std packages for later search.
+// moduleNames -> map path to its go.mod module name.
+// formattedPaths -> make sure we not format path more than 1 time.
 type Formatter struct {
 	stdPackages      map[string]struct{}
 	moduleNames      map[string]string
@@ -234,7 +232,7 @@ func (ft *Formatter) formatFile(path string) error {
 // First parse ast.
 // Then group imports.
 // Then format imports.
-// Then print.
+// Then print to bytes.
 func (ft *Formatter) formatImports(
 	path string,
 	pathBytes []byte,
