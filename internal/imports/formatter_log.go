@@ -1,8 +1,9 @@
 package imports
 
 import (
-	"go/ast"
 	"log"
+
+	"github.com/dave/dst"
 )
 
 // Wrap log.Printf with verbose flag
@@ -12,23 +13,10 @@ func (ft *Formatter) log(format string, v ...any) {
 	}
 }
 
-func (ft *Formatter) logImportSpecs(logPrefix string, importSpecs []*ast.ImportSpec) {
+func (ft *Formatter) logDSTImportSpecs(logPrefix string, importSpecs []*dst.ImportSpec) {
 	if ft.isVerbose {
 		for _, importSpec := range importSpecs {
-			log.Printf("%s: importSpec: %+v %+v\n", logPrefix, importSpec.Name.String(), importSpec.Path.Value)
-		}
-	}
-}
-
-func (ft *Formatter) mustLogImportSpecs(logPrefix string, importSpecs []ast.Spec) {
-	if ft.isVerbose {
-		for _, importSpec := range importSpecs {
-			importSpec, ok := importSpec.(*ast.ImportSpec)
-			if !ok {
-				continue
-			}
-
-			log.Printf("%s: importSpec: %+v %+v\n", logPrefix, importSpec.Name.String(), importSpec.Path.Value)
+			log.Printf("%s: [%s] [%s] before %v after %v\n", logPrefix, importSpec.Name, importSpec.Path.Value, importSpec.Decs.Before, importSpec.Decs.After)
 		}
 	}
 }
