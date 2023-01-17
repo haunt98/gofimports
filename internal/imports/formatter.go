@@ -239,10 +239,7 @@ func (ft *Formatter) formatImports(
 	}
 	ft.logDSTImportSpecs("formatImports: dstImportSpecs", dstFile.Imports)
 
-	groupedDSTImportSpecs, err := ft.groupDSTImportSpecs(
-		dstFile.Imports,
-		moduleName,
-	)
+	groupedDSTImportSpecs, err := ft.groupDSTImportSpecs(dstFile.Imports, moduleName)
 	if err != nil {
 		return nil, err
 	}
@@ -263,10 +260,7 @@ func (ft *Formatter) formatImports(
 	return buf.Bytes(), nil
 }
 
-func (ft *Formatter) groupDSTImportSpecs(
-	importSpecs []*dst.ImportSpec,
-	moduleName string,
-) (map[string][]*dst.ImportSpec, error) {
+func (ft *Formatter) groupDSTImportSpecs(importSpecs []*dst.ImportSpec, moduleName string) (map[string][]*dst.ImportSpec, error) {
 	result := make(map[string][]*dst.ImportSpec)
 	result[stdImport] = make([]*dst.ImportSpec, 0, 8)
 	result[thirdPartyImport] = make([]*dst.ImportSpec, 0, 8)
