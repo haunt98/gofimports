@@ -17,9 +17,6 @@ Remember, **no** sort here.
 Then insert empty import (empty path) between each group to get final imports
 Then update Go ast decls import with final imports.
 
-There is side effect of course, because we do not create empty line but we add empty import, so there is trailing space in that line (Go indent that empty import).
-That why I suggest you need to re-format after.
-
 ## Install
 
 With Go version `>= 1.16`:
@@ -65,3 +62,4 @@ import (
 - [goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports)
 - [mvdan/gofumpt](https://github.com/mvdan/gofumpt)
 - [incu6us/goimports-reviser](https://github.com/incu6us/goimports-reviser)
+- [dave/dst](https://github.com/dave/dst)
