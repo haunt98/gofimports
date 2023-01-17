@@ -16,6 +16,7 @@ import (
 	"github.com/dave/dst/decorator"
 	"github.com/pkg/diff"
 	"golang.org/x/mod/modfile"
+	"golang.org/x/sync/errgroup"
 	"golang.org/x/tools/go/packages"
 )
 
@@ -46,6 +47,7 @@ type Formatter struct {
 	stdPackages      map[string]struct{}
 	moduleNames      map[string]string
 	formattedPaths   map[string]struct{}
+	eg               errgroup.Group
 	companyPrefix    string
 	muModuleNames    sync.RWMutex
 	muFormattedPaths sync.RWMutex
@@ -87,7 +89,7 @@ func (ft *Formatter) Format(paths ...string) error {
 
 	// Logic switch case copy from goimports, gofumpt
 	for _, path := range paths {
-		path = strings.TrimSpace(path)
+		path := strings.TrimSpace(path)
 		if path == "" {
 			continue
 		}
@@ -100,14 +102,22 @@ func (ft *Formatter) Format(paths ...string) error {
 				return err
 			}
 		default:
-			if err := ft.formatFile(path); err != nil {
-				if ft.isIgnoreError(err) {
-					continue
+			ft.eg.Go(func() error {
+				if err := ft.formatFile(path); err != nil {
+					if ft.isIgnoreError(err) {
+						return nil
+					}
+
+					return err
 				}
 
-				return err
-			}
+				return nil
+			})
 		}
+	}
+
+	if err := ft.eg.Wait(); err != nil {
+		return err
 	}
 
 	return nil
@@ -128,13 +138,17 @@ func (ft *Formatter) formatDir(path string) error {
 			return nil
 		}
 
-		if err := ft.formatFile(path); err != nil {
-			if ft.isIgnoreError(err) {
-				return nil
+		ft.eg.Go(func() error {
+			if err := ft.formatFile(path); err != nil {
+				if ft.isIgnoreError(err) {
+					return nil
+				}
+
+				return err
 			}
 
-			return err
-		}
+			return nil
+		})
 
 		return nil
 	}); err != nil {
