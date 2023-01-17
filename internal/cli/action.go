@@ -28,6 +28,10 @@ func (a *action) getFlags(c *cli.Context) {
 	a.flags.diff = c.Bool(flagDiffName)
 	a.flags.verbose = c.Bool(flagVerboseName)
 	a.flags.companyPrefix = c.String(flagCompanyPrefixName)
+
+	if a.flags.verbose {
+		fmt.Printf("flags: %+v\n", a.flags)
+	}
 }
 
 func (a *action) Run(c *cli.Context) error {
