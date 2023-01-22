@@ -14,7 +14,7 @@ const (
 
 	// Inspiration from gofmt flags
 	flagCompanyPrefixName  = "company"
-	flagCompanyPrefixUsage = "company prefix, for example github.com/haunt98"
+	flagCompanyPrefixUsage = "company prefix, split using comma (,), for example github.com/make-go-great,github.com/haunt98"
 
 	flagListName  = "list"
 	flagListUsage = "list files will be changed"

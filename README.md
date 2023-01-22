@@ -9,13 +9,8 @@ First is **standard**.
 Then **third party**, then **company** if exist.
 The last is **local**.
 
-Also main selling point of this tool is to group imports not sort them.
-So please run `gofumpt` or `gofmt` after running this tool.
-
-Under the hood, this tool get all imports, then group them into 4 groups (std, third party, company, local).
-Remember, **no** sort here.
-Then insert empty import (empty path) between each group to get final imports
-Then update Go ast decls import with final imports.
+Also main selling point of this tool is to handle imports only.
+So please run `gofumpt` or `gofmt` to format you files after running this tool.
 
 ## Install
 
@@ -28,12 +23,12 @@ go install github.com/haunt98/gofimports/cmd/gofimports@latest
 ## Usage
 
 ```sh
-# Format ./internal
-# with print impacted file (-l),
-# write to file (-w),
-# print diff (-d)
-# company is github.com/make-go-great
-gofimports -l -company github.com/make-go-great -w -d ./internal
+# Format ./internal with:
+# - print impacted file (-l),
+# - write to file (-w),
+# - print diff (-d)
+# - company prefix, split using comma (,)
+gofimports -l -w -d --company github.com/make-go-great,github.com/haunt98 ./internal
 ```
 
 Example result:
@@ -54,7 +49,7 @@ import (
 ## Roadmap
 
 - [ ] Diff with color
-- [ ] Add profiling
+- [x] Add profiling
 - [ ] Improve performance
 
 ## Thanks
