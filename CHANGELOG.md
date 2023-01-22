@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v0.0.6 (2023-01-22)
+
+### Added
+
+- feat: support multi company, split using , (2023-01-22)
+
+### Others
+
+- chore: clarify company prefix guide (2023-01-22)
+
+- chore: format using local ./gofimports (2023-01-22)
+
+- chore: add golds (wip) (2023-01-18)
+
+- chore: improve docs (2023-01-17)
+
+- chore(changelog): generate v0.0.5 (2023-01-17)
+
 ## v0.0.5 (2023-01-17)
 
 ### Added
