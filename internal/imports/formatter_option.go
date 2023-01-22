@@ -1,5 +1,7 @@
 package imports
 
+import "strings"
+
 type FormatterOptionFn func(*Formatter)
 
 func FormatterWithList(isList bool) FormatterOptionFn {
@@ -28,6 +30,13 @@ func FormatterWithVerbose(isVerbose bool) FormatterOptionFn {
 
 func FormatterWithCompanyPrefix(companyPrefix string) FormatterOptionFn {
 	return func(ft *Formatter) {
-		ft.companyPrefix = companyPrefix
+		ft.companyPrefixes = make(map[string]struct{})
+		for _, prefix := range strings.Split(companyPrefix, ",") {
+			prefix = strings.TrimSpace(prefix)
+			if prefix == "" {
+				continue
+			}
+			ft.companyPrefixes[prefix] = struct{}{}
+		}
 	}
 }

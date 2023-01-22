@@ -52,8 +52,8 @@ type Formatter struct {
 	stdPackages      map[string]struct{}
 	moduleNames      map[string]string
 	formattedPaths   map[string]struct{}
+	companyPrefixes  map[string]struct{}
 	eg               errgroup.Group
-	companyPrefix    string
 	muModuleNames    sync.RWMutex
 	muFormattedPaths sync.RWMutex
 	isList           bool
@@ -316,7 +316,7 @@ func (ft *Formatter) groupDSTImportSpecs(importSpecs []*dst.ImportSpec, moduleNa
 	result := make(map[string][]*dst.ImportSpec)
 	result[stdImport] = make([]*dst.ImportSpec, 0, 8)
 	result[thirdPartyImport] = make([]*dst.ImportSpec, 0, 8)
-	if ft.companyPrefix != "" {
+	if len(ft.companyPrefixes) != 0 {
 		result[companyImport] = make([]*dst.ImportSpec, 0, 8)
 	}
 	result[localImport] = make([]*dst.ImportSpec, 0, 8)
@@ -335,10 +335,19 @@ func (ft *Formatter) groupDSTImportSpecs(importSpecs []*dst.ImportSpec, moduleNa
 			continue
 		}
 
-		if ft.companyPrefix != "" &&
-			strings.HasPrefix(importPath, ft.companyPrefix) {
-			result[companyImport] = append(result[companyImport], importSpec)
-			continue
+		if len(ft.companyPrefixes) != 0 {
+			existImport := false
+			for companyPrefix := range ft.companyPrefixes {
+				if strings.HasPrefix(importPath, companyPrefix) {
+					result[companyImport] = append(result[companyImport], importSpec)
+					existImport = true
+					break
+				}
+			}
+
+			if existImport {
+				continue
+			}
 		}
 
 		result[thirdPartyImport] = append(result[thirdPartyImport], importSpec)
@@ -346,7 +355,7 @@ func (ft *Formatter) groupDSTImportSpecs(importSpecs []*dst.ImportSpec, moduleNa
 
 	ft.logDSTImportSpecs("groupDSTImportSpecs: stdImport", result[stdImport])
 	ft.logDSTImportSpecs("groupDSTImportSpecs: thirdPartyImport", result[thirdPartyImport])
-	if ft.companyPrefix != "" {
+	if len(ft.companyPrefixes) != 0 {
 		ft.logDSTImportSpecs("groupDSTImportSpecs: companyImport", result[companyImport])
 	}
 	ft.logDSTImportSpecs("groupDSTImportSpecs: localImport", result[localImport])
