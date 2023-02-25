@@ -5,6 +5,8 @@ all:
 	$(MAKE) test-color
 	$(MAKE) lint
 	$(MAKE) format
+	$(MAKE) build
+	$(MAKE) clean
 
 test:
 	go test -race -failfast ./...
@@ -29,13 +31,13 @@ lint:
 
 format:
 	$(MAKE) build
-	# go install github.com/haunt98/gofimports/cmd/gofimports@latest
 	go install mvdan.cc/gofumpt@latest
 	./gofimports -w --company github.com/make-go-great,github.com/haunt98 .
 	gofumpt -w -extra .
 	$(MAKE) clean
 
 build:
+	$(MAKE) clean
 	go build ./cmd/gofimports
 
 clean:
