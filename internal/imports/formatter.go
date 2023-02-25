@@ -36,6 +36,8 @@ var (
 	ErrEmptyImport      = errors.New("empty import")
 	ErrGoModNotExist    = errors.New("go mod not exist")
 	ErrGoModEmptyModule = errors.New("go mod empty module")
+	ErrNotBytesBuffer   = errors.New("not bytes.Buffer")
+	ErrNotDSTGenDecl    = errors.New("not dst.GenDecl")
 )
 
 // https://pkg.go.dev/sync#Pool
@@ -78,7 +80,6 @@ func NewFormmater(opts ...FormatterOptionFn) (*Formatter, error) {
 	for _, stdPackage := range stdPackages {
 		ft.stdPackages[stdPackage.PkgPath] = struct{}{}
 	}
-	// ft.log("NewFormmater: stdPackages: %+v\n", ft.stdPackages)
 
 	ft.moduleNames = make(map[string]string)
 	ft.formattedPaths = make(map[string]struct{})
@@ -280,8 +281,12 @@ func (ft *Formatter) formatImports(
 	// First update
 	dstFile.Imports = formattedDSTImportSpecs
 
-	genSpecs := dstFile.Decls[0].(*dst.GenDecl).Specs
-	formattedGenSpecs := make([]dst.Spec, 0, len(genSpecs))
+	genDecl, ok := dstFile.Decls[0].(*dst.GenDecl)
+	if !ok {
+		return nil, ErrNotDSTGenDecl
+	}
+
+	formattedGenSpecs := make([]dst.Spec, 0, len(genDecl.Specs))
 
 	// Append all imports first
 	for _, importSpec := range formattedDSTImportSpecs {
@@ -289,7 +294,7 @@ func (ft *Formatter) formatImports(
 	}
 
 	// Append all non imports later
-	for _, genSpec := range genSpecs {
+	for _, genSpec := range genDecl.Specs {
 		if _, ok := genSpec.(*dst.ImportSpec); !ok {
 			formattedGenSpecs = append(formattedGenSpecs, genSpec)
 			continue
@@ -297,9 +302,12 @@ func (ft *Formatter) formatImports(
 	}
 
 	// Second update
-	dstFile.Decls[0].(*dst.GenDecl).Specs = formattedGenSpecs
+	genDecl.Specs = formattedGenSpecs
 
-	b := bufPool.Get().(*bytes.Buffer)
+	b, ok := bufPool.Get().(*bytes.Buffer)
+	if !ok {
+		return nil, ErrNotBytesBuffer
+	}
 	b.Reset()
 	defer bufPool.Put(b)
 
