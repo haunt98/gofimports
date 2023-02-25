@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v0.0.7 (2023-02-25)
+
+### Others
+
+- chore: fix lint (2023-02-25)
+
+- chore: update make (2023-02-25)
+
+- chore: bump go 1.20 github action (2023-02-25)
+
+- chore(changelog): generate v0.0.6 (2023-01-22)
+
 ## v0.0.6 (2023-01-22)
 
 ### Added
