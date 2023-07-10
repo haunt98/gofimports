@@ -1,5 +1,71 @@
 # CHANGELOG
 
+## v0.0.9 (2023-07-10)
+
+### Added
+
+- feat: add stock mode (#37) (2023-07-10)
+
+### Others
+
+- chore(deps): bump golang.org/x/tools from 0.10.0 to 0.11.0 (2023-07-06)
+
+- chore(deps): bump golang.org/x/mod from 0.11.0 to 0.12.0 (2023-07-05)
+
+- chore: sync github action (2023-07-01)
+
+- chore: sync golangci-lint (2023-06-29)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.25.6 to 2.25.7 (2023-06-19)
+
+- chore(deps): bump golang.org/x/tools from 0.9.3 to 0.10.0 (2023-06-16)
+
+- chore(deps): bump golang.org/x/mod from 0.10.0 to 0.11.0 (2023-06-15)
+
+- chore(deps): bump golang.org/x/sync from 0.2.0 to 0.3.0 (2023-06-15)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.25.5 to 2.25.6 (2023-06-13)
+
+- chore(deps): bump golang.org/x/tools from 0.9.2 to 0.9.3 (2023-06-02)
+
+- chore(deps): bump golang.org/x/tools from 0.9.1 to 0.9.2 (2023-06-01)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.25.4 to 2.25.5 (2023-05-30)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.25.3 to 2.25.4 (2023-05-29)
+
+- chore(deps): bump golang.org/x/tools from 0.9.0 to 0.9.1 (2023-05-10)
+
+- chore(deps): bump golang.org/x/tools from 0.8.0 to 0.9.0 (2023-05-09)
+
+- chore(deps): bump golang.org/x/sync from 0.1.0 to 0.2.0 (2023-05-05)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.25.2 to 2.25.3 (2023-05-02)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.25.1 to 2.25.2 (2023-05-01)
+
+- chore(deps): bump golang.org/x/tools from 0.7.0 to 0.8.0 (2023-04-07)
+
+- chore(deps): bump golang.org/x/mod from 0.9.0 to 0.10.0 (2023-04-05)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.25.0 to 2.25.1 (2023-03-27)
+
+- chore(deps): bump actions/setup-go from 3 to 4 (2023-03-22)
+
+- chore(deps): bump goreleaser/goreleaser-action from 3 to 4 (2023-03-22)
+
+- chore: update dependabot (2023-03-22)
+
+- chore: golds add dark theme (2023-03-13)
+
+- chore(deps): bump golang.org/x/tools from 0.6.0 to 0.7.0 (2023-03-08)
+
+- chore(deps): bump golang.org/x/mod from 0.8.0 to 0.9.0 (2023-03-06)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.24.4 to 2.25.0 (2023-03-06)
+
+- chore(changelog): generate v0.0.8 (2023-02-25)
+
 ## v0.0.8 (2023-02-25)
 
 ### Added
