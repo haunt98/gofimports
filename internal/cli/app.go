@@ -80,6 +80,10 @@ func NewApp() *App {
 				Name:  flagProfilerName,
 				Usage: flagProfilerUsage,
 			},
+			&cli.BoolFlag{
+				Name:  flagStockName,
+				Usage: flagStockUsage,
+			},
 		},
 		Action: a.Run,
 	}
