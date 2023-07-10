@@ -75,6 +75,7 @@ func (a *action) Run(c *cli.Context) error {
 		imports.FormatterWithDiff(a.flags.diff),
 		imports.FormatterWithVerbose(a.flags.verbose),
 		imports.FormatterWithCompanyPrefix(a.flags.companyPrefix),
+		imports.FormatterWithStock(a.flags.stock),
 	)
 	if err != nil {
 		return fmt.Errorf("imports: failed to new formatter: %w", err)

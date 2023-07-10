@@ -62,6 +62,7 @@ type Formatter struct {
 	isWrite          bool
 	isDiff           bool
 	isVerbose        bool
+	isStock          bool
 }
 
 func NewFormmater(opts ...FormatterOptionFn) (*Formatter, error) {
