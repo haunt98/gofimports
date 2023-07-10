@@ -32,7 +32,7 @@ const (
 	flagProfilerUsage = "go profiler, for debug only"
 
 	flagStockName  = "stock"
-	flagStockUsage = "stock mode, only split standard pkg and the other, ignore company flag"
+	flagStockUsage = "stock mode, only split standard pkg and non standard, ignore company flag"
 )
 
 var (
