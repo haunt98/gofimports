@@ -19,6 +19,7 @@ type action struct {
 		diff          bool
 		verbose       bool
 		profiler      bool
+		stock         bool
 	}
 }
 
@@ -33,6 +34,7 @@ func (a *action) getFlags(c *cli.Context) {
 	a.flags.diff = c.Bool(flagDiffName)
 	a.flags.verbose = c.Bool(flagVerboseName)
 	a.flags.profiler = c.Bool(flagProfilerName)
+	a.flags.stock = c.Bool(flagStockName)
 
 	if a.flags.verbose {
 		fmt.Printf("flags: %+v\n", a.flags)
@@ -73,6 +75,7 @@ func (a *action) Run(c *cli.Context) error {
 		imports.FormatterWithDiff(a.flags.diff),
 		imports.FormatterWithVerbose(a.flags.verbose),
 		imports.FormatterWithCompanyPrefix(a.flags.companyPrefix),
+		imports.FormatterWithStock(a.flags.stock),
 	)
 	if err != nil {
 		return fmt.Errorf("imports: failed to new formatter: %w", err)

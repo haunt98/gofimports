@@ -30,6 +30,9 @@ const (
 
 	flagProfilerName  = "profiler"
 	flagProfilerUsage = "go profiler, for debug only"
+
+	flagStockName  = "stock"
+	flagStockUsage = "stock mode, only split standard pkg and non standard, ignore company flag"
 )
 
 var (
@@ -76,6 +79,10 @@ func NewApp() *App {
 			&cli.BoolFlag{
 				Name:  flagProfilerName,
 				Usage: flagProfilerUsage,
+			},
+			&cli.BoolFlag{
+				Name:  flagStockName,
+				Usage: flagStockUsage,
 			},
 		},
 		Action: a.Run,

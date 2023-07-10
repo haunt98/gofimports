@@ -40,3 +40,9 @@ func FormatterWithCompanyPrefix(companyPrefix string) FormatterOptionFn {
 		}
 	}
 }
+
+func FormatterWithStock(isStock bool) FormatterOptionFn {
+	return func(ft *Formatter) {
+		ft.isStock = isStock
+	}
+}
