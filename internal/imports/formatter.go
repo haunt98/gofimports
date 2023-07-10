@@ -325,10 +325,14 @@ func (ft *Formatter) groupDSTImportSpecs(importSpecs []*dst.ImportSpec, moduleNa
 	result := make(map[string][]*dst.ImportSpec)
 	result[stdImport] = make([]*dst.ImportSpec, 0, 8)
 	result[thirdPartyImport] = make([]*dst.ImportSpec, 0, 8)
-	if len(ft.companyPrefixes) != 0 {
-		result[companyImport] = make([]*dst.ImportSpec, 0, 8)
+	if !ft.isStock {
+		// Only split company, local imports if not stock
+		// Otherwise everything is third party imports
+		if len(ft.companyPrefixes) != 0 {
+			result[companyImport] = make([]*dst.ImportSpec, 0, 8)
+		}
+		result[localImport] = make([]*dst.ImportSpec, 0, 8)
 	}
-	result[localImport] = make([]*dst.ImportSpec, 0, 8)
 
 	for _, importSpec := range importSpecs {
 		// "github.com/abc/xyz" -> github.com/abc/xyz
@@ -339,23 +343,25 @@ func (ft *Formatter) groupDSTImportSpecs(importSpecs []*dst.ImportSpec, moduleNa
 			continue
 		}
 
-		if strings.HasPrefix(importPath, moduleName) {
-			result[localImport] = append(result[localImport], importSpec)
-			continue
-		}
-
-		if len(ft.companyPrefixes) != 0 {
-			existImport := false
-			for companyPrefix := range ft.companyPrefixes {
-				if strings.HasPrefix(importPath, companyPrefix) {
-					result[companyImport] = append(result[companyImport], importSpec)
-					existImport = true
-					break
-				}
+		if !ft.isStock {
+			if strings.HasPrefix(importPath, moduleName) {
+				result[localImport] = append(result[localImport], importSpec)
+				continue
 			}
 
-			if existImport {
-				continue
+			if len(ft.companyPrefixes) != 0 {
+				existImport := false
+				for companyPrefix := range ft.companyPrefixes {
+					if strings.HasPrefix(importPath, companyPrefix) {
+						result[companyImport] = append(result[companyImport], importSpec)
+						existImport = true
+						break
+					}
+				}
+
+				if existImport {
+					continue
+				}
 			}
 		}
 
