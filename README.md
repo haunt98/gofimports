@@ -29,6 +29,11 @@ go install github.com/haunt98/gofimports/cmd/gofimports@latest
 # - print diff (-d)
 # - company prefix, split using comma (,)
 gofimports -l -w -d --company github.com/make-go-great,github.com/haunt98 ./internal
+
+# Format ./internal with:
+# - write to file (-w),
+# - stock mode, only split standard and non standard
+gofimports -w --stock ./internal
 ```
 
 Example result:
