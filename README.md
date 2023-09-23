@@ -2,15 +2,15 @@
 
 [![Go](https://github.com/haunt98/gofimports/workflows/Go/badge.svg?branch=main)](https://github.com/haunt98/gofimports/actions)
 [![Go Reference](https://pkg.go.dev/badge/github.com/haunt98/gofimports.svg)](https://pkg.go.dev/github.com/haunt98/gofimports)
+[![Latest Version](https://img.shields.io/github/v/tag/haunt98/gofimports)](https://github.com/haunt98/gofimports/tags)
 
 Group Go imports with my opinionated preferences.
 
-First is **standard**.
-Then **third party**, then **company** if exist.
-The last is **local**.
+First is **standard**. Then **third party**, then **company** if exist. The last
+is **local**.
 
-Also main selling point of this tool is to handle imports only.
-So please run `gofumpt` or `gofmt` to format you files after running this tool.
+Also main selling point of this tool is to handle imports only. So please run
+`gofumpt` or `gofmt` to format you files after running this tool.
 
 ## Install
 
