@@ -1,5 +1,41 @@
 # CHANGELOG
 
+## v0.0.10 (2023-11-29)
+
+### Others
+
+- chore(deps): bump golang.org/x/tools from 0.15.0 to 0.16.0 (2023-11-28)
+
+- chore(deps): bump golang.org/x/tools from 0.14.0 to 0.15.0 (2023-11-09)
+
+- chore(deps): bump golang.org/x/sync from 0.4.0 to 0.5.0 (2023-11-06)
+
+- chore(deps): bump golang.org/x/mod from 0.13.0 to 0.14.0 (2023-11-06)
+
+- chore(deps): bump github.com/dave/dst from 0.27.2 to 0.27.3 (2023-10-16)
+
+- chore(deps): bump golang.org/x/tools from 0.13.0 to 0.14.0 (2023-10-09)
+
+- chore(deps): bump golang.org/x/sync from 0.3.0 to 0.4.0 (2023-10-06)
+
+- chore(deps): bump golang.org/x/mod from 0.12.0 to 0.13.0 (2023-10-06)
+
+- chore: add badges (2023-09-23)
+
+- chore(deps): bump goreleaser/goreleaser-action from 4 to 5 (2023-09-12)
+
+- chore(deps): bump golang.org/x/tools from 0.12.0 to 0.13.0 (2023-09-06)
+
+- chore(deps): bump actions/checkout from 3 to 4 (2023-09-05)
+
+- chore(deps): bump golang.org/x/tools from 0.11.1 to 0.12.0 (2023-08-08)
+
+- chore(deps): bump golang.org/x/tools from 0.11.0 to 0.11.1 (#39) (2023-08-01)
+
+- chore(deps): bump github.com/make-go-great/color-go from 0.4.1 to 0.5.0 (#38) (2023-07-17)
+
+- chore(changelog): generate v0.0.9 (2023-07-10)
+
 ## v0.0.9 (2023-07-10)
 
 ### Added
