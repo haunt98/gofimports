@@ -1,6 +1,7 @@
 # gofimports
 
-[![Go](https://github.com/haunt98/gofimports/workflows/Go/badge.svg?branch=main)](https://github.com/haunt98/gofimports/actions)
+[![Go](https://github.com/haunt98/gofimports/actions/workflows/go.yml/badge.svg)](https://github.com/haunt98/gofimports/actions/workflows/go.yml)
+[![gitleaks](https://github.com/haunt98/gofimports/actions/workflows/gitleaks.yml/badge.svg)](https://github.com/haunt98/gofimports/actions/workflows/gitleaks.yml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/haunt98/gofimports.svg)](https://pkg.go.dev/github.com/haunt98/gofimports)
 [![Latest Version](https://img.shields.io/github/v/tag/haunt98/gofimports)](https://github.com/haunt98/gofimports/tags)
 
