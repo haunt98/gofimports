@@ -1,5 +1,51 @@
 # CHANGELOG
 
+## v0.0.12 (2024-08-22)
+
+### Others
+
+- chore: migrate to justfile (2024-08-22)
+
+- chore: raise go (2024-08-22)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.27.3 to 2.27.4 (#81) (2024-08-12)
+
+- chore(deps): bump golang.org/x/tools from 0.23.0 to 0.24.0 (#80) (2024-08-07)
+
+- chore(deps): bump golang.org/x/sync from 0.7.0 to 0.8.0 (#78) (2024-08-06)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.27.2 to 2.27.3 (#77) (2024-08-06)
+
+- chore(deps): bump golang.org/x/mod from 0.19.0 to 0.20.0 (#79) (2024-08-06)
+
+- chore(deps): bump golang.org/x/tools from 0.22.0 to 0.23.0 (#76) (2024-07-08)
+
+- chore(deps): bump golang.org/x/mod from 0.18.0 to 0.19.0 (#75) (2024-07-05)
+
+- chore: remove goreleaser (2024-06-10)
+
+- chore: add badges (2024-06-08)
+
+- chore: add gitleaks (2024-06-08)
+
+- chore(deps): bump goreleaser/goreleaser-action from 5 to 6 (#72) (2024-06-05)
+
+- chore(deps): bump golang.org/x/mod from 0.17.0 to 0.18.0 (#73) (2024-06-05)
+
+- chore(deps): bump golang.org/x/tools from 0.21.0 to 0.22.0 (#74) (2024-06-05)
+
+- chore: sync golangci-lint config (2024-05-08)
+
+- chore(deps): bump golang.org/x/tools from 0.20.0 to 0.21.0 (#70) (2024-05-07)
+
+- chore(deps): bump golangci/golangci-lint-action from 5 to 6 (#71) (2024-05-07)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.27.1 to 2.27.2 (#69) (2024-04-29)
+
+- chore(deps): bump golangci/golangci-lint-action from 4 to 5 (#68) (2024-04-25)
+
+- chore(changelog): generate v0.0.11 (2024-04-07)
+
 ## v0.0.11 (2024-04-07)
 
 ### Others
