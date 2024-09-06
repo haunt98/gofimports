@@ -1,7 +1,6 @@
 module github.com/haunt98/gofimports
 
-go 1.22
-toolchain go1.22.5
+go 1.23
 
 require (
 	github.com/dave/dst v0.27.3
