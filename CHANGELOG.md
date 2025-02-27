@@ -1,5 +1,43 @@
 # CHANGELOG
 
+## v0.0.13 (2025-02-28)
+
+### Others
+
+- chore: deprecated check-shadowing in govet linter (2025-01-05)
+
+- chore: sync lint (2024-10-26)
+
+- chore(changelog): generate v0.0.12 (2024-08-22)
+
+### Build
+
+- chore(deps): bump golang.org/x/tools from 0.29.0 to 0.30.0 (#94) (2025-02-11)
+
+- chore(deps): bump golang.org/x/mod from 0.22.0 to 0.23.0 (#93) (2025-02-05)
+
+- chore(deps): bump golang.org/x/sync from 0.10.0 to 0.11.0 (#92) (2025-02-05)
+
+- chore(deps): bump golang.org/x/tools from 0.28.0 to 0.29.0 (#91) (2025-01-07)
+
+- chore(deps): bump golang.org/x/tools from 0.27.0 to 0.28.0 (#89) (2024-12-06)
+
+- chore(deps): bump golang.org/x/tools from 0.26.0 to 0.27.0 (#88) (2024-11-11)
+
+- chore(deps): bump golang.org/x/mod from 0.21.0 to 0.22.0 (#86) (2024-11-09)
+
+- chore(deps): bump golang.org/x/sync from 0.8.0 to 0.9.0 (#87) (2024-11-09)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.27.4 to 2.27.5 (#85) (2024-10-14)
+
+- chore(deps): bump golang.org/x/tools from 0.25.0 to 0.26.0 (#84) (2024-10-07)
+
+- chore(deps): bump golang.org/x/tools from 0.24.0 to 0.25.0 (#83) (2024-09-10)
+
+- build: bump go.mod (2024-09-06)
+
+- chore(deps): bump golang.org/x/mod from 0.20.0 to 0.21.0 (#82) (2024-09-06)
+
 ## v0.0.12 (2024-08-22)
 
 ### Others
