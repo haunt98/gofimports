@@ -8,7 +8,7 @@ require (
 	github.com/urfave/cli/v2 v2.27.6
 	golang.org/x/mod v0.24.0
 	golang.org/x/sync v0.12.0
-	golang.org/x/tools v0.30.0
+	golang.org/x/tools v0.31.0
 )
 
 require (
@@ -18,5 +18,5 @@ require (
 	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1 // indirect
-	golang.org/x/sys v0.30.0 // indirect
+	golang.org/x/sys v0.31.0 // indirect
 )
