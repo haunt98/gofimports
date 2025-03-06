@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v0.0.14 (2025-03-06)
+
+### Others
+
+- chore(changelog): generate v0.0.13 (2025-02-28)
+
+### Build
+
+- build: bump go 1.24 (2025-03-06)
+
+- chore(deps): bump golang.org/x/tools from 0.30.0 to 0.31.0 (#98) (2025-03-06)
+
+- chore(deps): bump golang.org/x/sync from 0.11.0 to 0.12.0 (#97) (2025-03-06)
+
+- chore(deps): bump golang.org/x/mod from 0.23.0 to 0.24.0 (#96) (2025-03-06)
+
+- chore(deps): bump github.com/urfave/cli/v2 from 2.27.5 to 2.27.6 (#95) (2025-03-06)
+
 ## v0.0.13 (2025-02-28)
 
 ### Others
