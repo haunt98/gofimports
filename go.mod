@@ -1,6 +1,7 @@
 module github.com/haunt98/gofimports
 
-go 1.23
+go 1.24
+
 require (
 	github.com/dave/dst v0.27.3
 	github.com/make-go-great/color-go v0.5.0
