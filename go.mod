@@ -7,7 +7,7 @@ require (
 	github.com/pkg/diff v0.0.0-20210226163009-20ebb0f2a09e
 	github.com/urfave/cli/v2 v2.27.6
 	golang.org/x/mod v0.24.0
-	golang.org/x/sync v0.11.0
+	golang.org/x/sync v0.12.0
 	golang.org/x/tools v0.30.0
 )
 
