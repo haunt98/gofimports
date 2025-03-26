@@ -31,7 +31,7 @@ func FormatterWithVerbose(isVerbose bool) FormatterOptionFn {
 func FormatterWithCompanyPrefix(companyPrefix string) FormatterOptionFn {
 	return func(ft *Formatter) {
 		ft.companyPrefixes = make(map[string]struct{})
-		for _, prefix := range strings.Split(companyPrefix, ",") {
+		for prefix := range strings.SplitSeq(companyPrefix, ",") {
 			prefix = strings.TrimSpace(prefix)
 			if prefix == "" {
 				continue
