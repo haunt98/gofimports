@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v0.0.15 (2025-04-06)
+
+### Others
+
+- chore: migrate golangci-lint v2 (2025-03-26)
+
+- chore(changelog): generate v0.0.14 (2025-03-06)
+
+### Build
+
+- build: bump urfave/cli v3 (2025-04-06)
+
+- chore(deps): bump golangci/golangci-lint-action from 6 to 7 (#99) (2025-03-26)
+
 ## v0.0.14 (2025-03-06)
 
 ### Others
