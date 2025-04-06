@@ -1,12 +1,13 @@
 package cli
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"runtime"
 	"runtime/pprof"
 
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 
 	"github.com/haunt98/gofimports/internal/imports"
 )
@@ -23,11 +24,11 @@ type action struct {
 	}
 }
 
-func (a *action) RunHelp(c *cli.Context) error {
+func (a *action) RunHelp(ctx context.Context, c *cli.Command) error {
 	return cli.ShowAppHelp(c)
 }
 
-func (a *action) getFlags(c *cli.Context) {
+func (a *action) getFlags(c *cli.Command) {
 	a.flags.companyPrefix = c.String(flagCompanyPrefixName)
 	a.flags.list = c.Bool(flagListName)
 	a.flags.write = c.Bool(flagWriteName)
@@ -41,19 +42,19 @@ func (a *action) getFlags(c *cli.Context) {
 	}
 }
 
-func (a *action) Run(c *cli.Context) error {
+func (a *action) Run(ctx context.Context, c *cli.Command) error {
 	a.getFlags(c)
 
 	// No flag is set
 	if !a.flags.list &&
 		!a.flags.write &&
 		!a.flags.diff {
-		return a.RunHelp(c)
+		return a.RunHelp(ctx, c)
 	}
 
 	// Empty args
 	if c.Args().Len() == 0 {
-		return a.RunHelp(c)
+		return a.RunHelp(ctx, c)
 	}
 
 	if a.flags.profiler {
