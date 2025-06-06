@@ -7,9 +7,9 @@ require (
 	github.com/make-go-great/color-go v0.5.0
 	github.com/pkg/diff v0.0.0-20210226163009-20ebb0f2a09e
 	github.com/urfave/cli/v3 v3.3.3
-	golang.org/x/mod v0.24.0
+	golang.org/x/mod v0.25.0
 	golang.org/x/sync v0.15.0
-	golang.org/x/tools v0.33.0
+	golang.org/x/tools v0.34.0
 )
 
 require (
