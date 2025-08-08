@@ -1,5 +1,49 @@
 # CHANGELOG
 
+## v0.0.16 (2025-08-08)
+
+### Others
+
+- chore(changelog): generate v0.0.15 (2025-04-06)
+
+### Build
+
+- chore(deps): bump golang.org/x/mod from 0.26.0 to 0.27.0 (#116) (2025-08-08)
+
+- chore(deps): bump golang.org/x/tools from 0.35.0 to 0.36.0 (#117) (2025-08-08)
+
+- chore(deps): bump golang.org/x/tools from 0.34.0 to 0.35.0 (#115) (2025-07-15)
+
+- chore(deps): bump golang.org/x/sync from 0.15.0 to 0.16.0 (#114) (2025-07-10)
+
+- chore(deps): bump golang.org/x/mod from 0.25.0 to 0.26.0 (#113) (2025-07-10)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.3.3 to 3.3.8 (#112) (2025-06-13)
+
+- chore(deps): bump golang.org/x/mod from 0.24.0 to 0.25.0 (#110) (2025-06-06)
+
+- chore(deps): bump golang.org/x/tools from 0.33.0 to 0.34.0 (#109) (2025-06-06)
+
+- chore(deps): bump golang.org/x/sync from 0.14.0 to 0.15.0 (#111) (2025-06-06)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.3.2 to 3.3.3 (#108) (2025-05-12)
+
+- chore(deps): bump golang.org/x/tools from 0.32.0 to 0.33.0 (#107) (2025-05-06)
+
+- chore(deps): bump golang.org/x/sync from 0.13.0 to 0.14.0 (#106) (2025-05-06)
+
+- chore(deps): bump golangci/golangci-lint-action from 7 to 8 (#105) (2025-05-05)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.3.1 to 3.3.2 (#104) (2025-04-29)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.2.0 to 3.3.1 (#103) (2025-04-28)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.1.1 to 3.2.0 (#102) (2025-04-21)
+
+- chore(deps): bump golang.org/x/tools from 0.31.0 to 0.32.0 (#101) (2025-04-08)
+
+- chore(deps): bump golang.org/x/sync from 0.12.0 to 0.13.0 (#100) (2025-04-08)
+
 ## v0.0.15 (2025-04-06)
 
 ### Others
