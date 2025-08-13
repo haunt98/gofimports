@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v0.0.17 (2025-08-13)
+
+### Others
+
+- chore(changelog): generate v0.0.16 (2025-08-08)
+
+### Build
+
+- chore(deps): bump actions/checkout from 4 to 5 (#119) (2025-08-13)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.3.8 to 3.4.0 (#118) (2025-08-13)
+
 ## v0.0.16 (2025-08-08)
 
 ### Others
