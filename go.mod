@@ -9,12 +9,12 @@ require (
 	github.com/urfave/cli/v3 v3.9.1
 	golang.org/x/mod v0.37.0
 	golang.org/x/sync v0.21.0
-	golang.org/x/tools v0.45.0
+	golang.org/x/tools v0.46.0
 )
 
 require (
 	github.com/fatih/color v1.19.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	golang.org/x/sys v0.44.0 // indirect
+	golang.org/x/sys v0.46.0 // indirect
 )
