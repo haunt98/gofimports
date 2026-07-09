@@ -1,5 +1,79 @@
 # CHANGELOG
 
+## v0.0.20 (2026-07-10)
+
+### Others
+
+- chore: update lint (2026-05-10)
+
+- chore (2026-03-21)
+
+- chore: update lint (2026-03-10)
+
+- chore: ubuntu-latest -> ubuntu-slim (2025-12-20)
+
+- chore(changelog): generate v0.0.19 (2025-12-18)
+
+### Build
+
+- chore(deps): bump golang.org/x/tools from 0.47.0 to 0.48.0 (#166) (2026-07-10)
+
+- chore(deps): bump golang.org/x/sync from 0.21.0 to 0.22.0 (#165) (2026-07-10)
+
+- chore(deps): bump golang.org/x/mod from 0.37.0 to 0.38.0 (#167) (2026-07-09)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.10.0 to 3.10.1 (#164) (2026-06-29)
+
+- chore(deps): bump golang.org/x/tools from 0.46.0 to 0.47.0 (#163) (2026-06-27)
+
+- chore(deps): bump actions/checkout from 6 to 7 (#162) (2026-06-20)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.9.1 to 3.10.0 (#161) (2026-06-15)
+
+- chore(deps): bump golang.org/x/tools from 0.45.0 to 0.46.0 (#160) (2026-06-12)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.9.0 to 3.9.1 (#159) (2026-06-12)
+
+- chore(deps): bump golang.org/x/sync from 0.20.0 to 0.21.0 (#158) (2026-06-10)
+
+- chore(deps): bump golang.org/x/mod from 0.36.0 to 0.37.0 (#157) (2026-06-10)
+
+- chore(deps): bump gitleaks/gitleaks-action from 2 to 3 (#156) (2026-06-02)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.8.0 to 3.9.0 (#155) (2026-05-14)
+
+- chore(deps): bump golang.org/x/mod from 0.35.0 to 0.36.0 (#154) (2026-05-12)
+
+- chore(deps): bump golang.org/x/tools from 0.44.0 to 0.45.0 (#153) (2026-05-12)
+
+- chore(deps): bump github.com/dave/dst from 0.27.3 to 0.27.4 (#152) (2026-04-23)
+
+- chore(deps): bump golang.org/x/mod from 0.34.0 to 0.35.0 (#150) (2026-04-10)
+
+- chore(deps): bump golang.org/x/tools from 0.43.0 to 0.44.0 (#151) (2026-04-10)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.7.0 to 3.8.0 (#149) (2026-03-26)
+
+- chore(deps): bump github.com/make-go-great/color-go from 0.6.0 to 0.7.0 (#148) (2026-03-23)
+
+- chore(deps): bump golang.org/x/mod from 0.33.0 to 0.34.0 (#147) (2026-03-13)
+
+- chore(deps): bump golang.org/x/tools from 0.42.0 to 0.43.0 (#146) (2026-03-13)
+
+- chore(deps): bump golang.org/x/sync from 0.19.0 to 0.20.0 (#145) (2026-03-10)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.6.2 to 3.7.0 (#144) (2026-03-02)
+
+- chore(deps): bump golang.org/x/tools from 0.41.0 to 0.42.0 (#143) (2026-02-11)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.6.1 to 3.6.2 (#141) (2026-01-19)
+
+- chore(deps): bump golang.org/x/tools from 0.40.0 to 0.41.0 (#140) (2026-01-13)
+
+- chore(deps): bump golang.org/x/mod from 0.31.0 to 0.32.0 (#139) (2026-01-13)
+
+- chore(deps): bump github.com/make-go-great/color-go from 0.5.0 to 0.6.0 (#138) (2025-12-18)
+
 ## v0.0.19 (2025-12-18)
 
 ### Others
