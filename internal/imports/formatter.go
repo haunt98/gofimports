@@ -54,7 +54,6 @@ type Formatter struct {
 	formattedPaths   map[string]struct{}
 	companyPrefixes  map[string]struct{}
 	p                *pool.ErrorPool
-	muModuleNames    sync.RWMutex
 	muFormattedPaths sync.RWMutex
 	isList           bool
 	isWrite          bool
@@ -104,16 +103,54 @@ func (ft *Formatter) Format(paths ...string) error {
 			continue
 		}
 
+		dirPath := filepath.Clean(path)
+		var goModPath string
+		var foundGoMod bool
+		for {
+			goModPath = filepath.Join(dirPath, "go.mod")
+			fileInfo, err := os.Stat(goModPath)
+			if err == nil &&
+				!fileInfo.IsDir() {
+				foundGoMod = true
+				break
+			}
+
+			// Check ..
+			if dirPath == filepath.Dir(dirPath) {
+				// Reach root
+				break
+			}
+
+			dirPath = filepath.Dir(dirPath)
+		}
+
+		if !foundGoMod {
+			ft.log("Format: go.mod not found for path: [%s], skip", path)
+			continue
+		}
+
+		goModPathBytes, err := os.ReadFile(goModPath)
+		if err != nil {
+			return fmt.Errorf("os: failed to read file: [%s] %w", goModPath, err)
+		}
+
+		goModFile, err := modfile.Parse(goModPath, goModPathBytes, nil)
+		if err != nil {
+			return fmt.Errorf("modfile: failed to parse: [%s] %w", goModPath, err)
+		}
+
+		moduleName := goModFile.Module.Mod.Path
+
 		switch dir, err := os.Stat(path); {
 		case err != nil:
 			return fmt.Errorf("os: failed to stat: [%s] %w", path, err)
 		case dir.IsDir():
-			if err := ft.formatDir(path); err != nil {
+			if err := ft.formatDir(path, moduleName); err != nil {
 				return err
 			}
 		default:
 			ft.p.Go(func() error {
-				if err := ft.formatFile(path); err != nil {
+				if err := ft.formatFile(path, moduleName); err != nil {
 					if ft.isIgnoreError(err) {
 						return nil
 					}
@@ -134,7 +171,7 @@ func (ft *Formatter) Format(paths ...string) error {
 }
 
 // Copy from gofumpt
-func (ft *Formatter) formatDir(path string) error {
+func (ft *Formatter) formatDir(path, moduleName string) error {
 	if err := filepath.WalkDir(path, func(path string, dirEntry fs.DirEntry, err error) error {
 		if filepath.Base(path) == "vendor" {
 			return filepath.SkipDir
@@ -149,7 +186,7 @@ func (ft *Formatter) formatDir(path string) error {
 		}
 
 		ft.p.Go(func() error {
-			if err := ft.formatFile(path); err != nil {
+			if err := ft.formatFile(path, moduleName); err != nil {
 				if ft.isIgnoreError(err) {
 					return nil
 				}
@@ -168,7 +205,7 @@ func (ft *Formatter) formatDir(path string) error {
 	return nil
 }
 
-func (ft *Formatter) formatFile(path string) error {
+func (ft *Formatter) formatFile(path, moduleName string) error {
 	ft.muFormattedPaths.Lock()
 	defer ft.muFormattedPaths.Unlock()
 
@@ -198,13 +235,6 @@ func (ft *Formatter) formatFile(path string) error {
 	if err != nil {
 		return fmt.Errorf("io: failed to read all: [%s] %w", path, err)
 	}
-
-	// Get module name of path
-	moduleName, err := ft.moduleName(path)
-	if err != nil {
-		return err
-	}
-	ft.log("formatFile: moduleName: [%s]\n", moduleName)
 
 	formattedBytes, err := ft.formatImports(path, pathBytes, moduleName)
 	if err != nil {
@@ -439,71 +469,6 @@ func (ft *Formatter) formatDSTImportSpecs(groupedImportSpecs map[string][]*dst.I
 	}
 
 	result[len(result)-1].Decs.After = dst.NewLine
-
-	return result, nil
-}
-
-// Copy from goimports-reviser
-// Get module name from go.mod of path
-// If current path doesn't have go.mod, recursive find its parent path
-func (ft *Formatter) moduleName(path string) (string, error) {
-	ft.muModuleNames.Lock()
-	defer ft.muModuleNames.Unlock()
-
-	if pkgName, ok := ft.moduleNames[path]; ok {
-		return pkgName, nil
-	}
-
-	// Copy from goimports-reviser
-	// Check path/go.mod first
-	// If not exist -> check ../go.mod
-	// Assume path is dir path, maybe wrong but it is ok for now
-	dirPath := filepath.Clean(path)
-	var goModPath string
-	var foundGoMod bool
-	for {
-		if pkgName, ok := ft.moduleNames[dirPath]; ok {
-			return pkgName, nil
-		}
-
-		goModPath = filepath.Join(dirPath, "go.mod")
-		fileInfo, err := os.Stat(goModPath)
-		if err == nil && !fileInfo.IsDir() {
-			foundGoMod = true
-			break
-		}
-
-		// Check ..
-		if dirPath == filepath.Dir(dirPath) {
-			// Reach root
-			break
-		}
-
-		dirPath = filepath.Dir(dirPath)
-	}
-
-	if !foundGoMod {
-		return "", ErrGoModNotExist
-	}
-	ft.log("moduleName: goModPath: %+v\n", goModPath)
-
-	goModPathBytes, err := os.ReadFile(goModPath)
-	if err != nil {
-		return "", fmt.Errorf("os: failed to read file: [%s] %w", goModPath, err)
-	}
-
-	goModFile, err := modfile.Parse(goModPath, goModPathBytes, nil)
-	if err != nil {
-		return "", fmt.Errorf("modfile: failed to parse: [%s] %w", goModPath, err)
-	}
-
-	result := goModFile.Module.Mod.Path
-	if result == "" {
-		return "", ErrGoModEmptyModule
-	}
-
-	ft.moduleNames[path] = result
-	ft.moduleNames[dirPath] = result
 
 	return result, nil
 }

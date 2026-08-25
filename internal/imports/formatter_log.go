@@ -16,7 +16,14 @@ func (ft *Formatter) log(format string, v ...any) {
 func (ft *Formatter) logDSTImportSpecs(logPrefix string, importSpecs []*dst.ImportSpec) {
 	if ft.isVerbose {
 		for _, importSpec := range importSpecs {
-			log.Printf("%s: [%s] [%s] before %v after %v\n", logPrefix, importSpec.Name, importSpec.Path.Value, importSpec.Decs.Before, importSpec.Decs.After)
+			log.Printf(
+				"%s: [%s] [%s] before %v after %v\n",
+				logPrefix,
+				importSpec.Name,
+				importSpec.Path.Value,
+				importSpec.Decs.Before,
+				importSpec.Decs.After,
+			)
 		}
 	}
 }
