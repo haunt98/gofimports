@@ -33,3 +33,6 @@ build:
 
 clean:
     rm -rf ./gofimports
+
+upstream:
+    go run ./cmd/stdimports
