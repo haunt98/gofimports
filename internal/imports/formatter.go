@@ -496,6 +496,7 @@ func (ft *Formatter) moduleName(path string) (string, error) {
 
 	ft.muModuleNames.Lock()
 	ft.moduleNames[path] = result
+	ft.moduleNames[dirPath] = result
 	ft.muModuleNames.Unlock()
 
 	return result, nil
