@@ -170,12 +170,13 @@ func (ft *Formatter) formatDir(path string) error {
 
 func (ft *Formatter) formatFile(path string) error {
 	ft.muFormattedPaths.Lock()
+	defer ft.muFormattedPaths.Unlock()
+
 	if _, ok := ft.formattedPaths[path]; ok {
-		ft.muFormattedPaths.Unlock()
 		return nil
 	}
+
 	ft.formattedPaths[path] = struct{}{}
-	ft.muFormattedPaths.Unlock()
 
 	// Return if not go file
 	if !isGoFile(filepath.Base(path)) {
@@ -446,12 +447,12 @@ func (ft *Formatter) formatDSTImportSpecs(groupedImportSpecs map[string][]*dst.I
 // Get module name from go.mod of path
 // If current path doesn't have go.mod, recursive find its parent path
 func (ft *Formatter) moduleName(path string) (string, error) {
-	ft.muModuleNames.RLock()
+	ft.muModuleNames.Lock()
+	defer ft.muModuleNames.Unlock()
+
 	if pkgName, ok := ft.moduleNames[path]; ok {
-		ft.muModuleNames.RUnlock()
 		return pkgName, nil
 	}
-	ft.muModuleNames.RUnlock()
 
 	// Copy from goimports-reviser
 	// Check path/go.mod first
@@ -461,12 +462,9 @@ func (ft *Formatter) moduleName(path string) (string, error) {
 	var goModPath string
 	var foundGoMod bool
 	for {
-		ft.muModuleNames.RLock()
 		if pkgName, ok := ft.moduleNames[dirPath]; ok {
-			ft.muModuleNames.RUnlock()
 			return pkgName, nil
 		}
-		ft.muModuleNames.RUnlock()
 
 		goModPath = filepath.Join(dirPath, "go.mod")
 		fileInfo, err := os.Stat(goModPath)
@@ -504,10 +502,8 @@ func (ft *Formatter) moduleName(path string) (string, error) {
 		return "", ErrGoModEmptyModule
 	}
 
-	ft.muModuleNames.Lock()
 	ft.moduleNames[path] = result
 	ft.moduleNames[dirPath] = result
-	ft.muModuleNames.Unlock()
 
 	return result, nil
 }
