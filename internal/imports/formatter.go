@@ -375,7 +375,9 @@ func (ft *Formatter) groupDSTImportSpecs(importSpecs []*dst.ImportSpec, moduleNa
 		}
 
 		if !ft.isStock {
-			if strings.HasPrefix(importPath, moduleName) {
+			// Local if module itself or a subpackage of it
+			if importPath == moduleName ||
+				strings.HasPrefix(importPath, moduleName+"/") {
 				result[localImport] = append(result[localImport], importSpec)
 				continue
 			}
