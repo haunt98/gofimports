@@ -212,7 +212,13 @@ func (ft *Formatter) formatFile(path string) error {
 	}
 
 	if ft.isWrite {
-		if err := os.WriteFile(path, formattedBytes, 0o600); err != nil {
+		// Preserve original file mode
+		fileInfo, err := os.Stat(path)
+		if err != nil {
+			return fmt.Errorf("os: failed to stat file: [%s] %w", path, err)
+		}
+
+		if err := os.WriteFile(path, formattedBytes, fileInfo.Mode().Perm()); err != nil {
 			return fmt.Errorf("os: failed to write file: [%s] %w", path, err)
 		}
 	}
