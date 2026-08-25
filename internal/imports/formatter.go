@@ -273,7 +273,7 @@ func (ft *Formatter) formatImports(
 	if err != nil {
 		return nil, fmt.Errorf("decorator: failed to parse file [%s]: %w", path, err)
 	}
-	if len(dstFile.Imports) == 0 || len(dstFile.Decls) == 0 {
+	if len(dstFile.Imports) == 0 {
 		return nil, ErrEmptyImport
 	}
 	ft.logDSTImportSpecs("formatImports: dstImportSpecs", dstFile.Imports)
