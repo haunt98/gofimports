@@ -36,16 +36,8 @@ var (
 	ErrEmptyImport      = errors.New("empty import")
 	ErrGoModNotExist    = errors.New("go mod not exist")
 	ErrGoModEmptyModule = errors.New("go mod empty module")
-	ErrNotBytesBuffer   = errors.New("not bytes.Buffer")
 	ErrNotDSTGenDecl    = errors.New("not dst.GenDecl")
 )
-
-// https://pkg.go.dev/sync#Pool
-var bufPool = sync.Pool{
-	New: func() any {
-		return new(bytes.Buffer)
-	},
-}
 
 // stdPackages -> save std packages for later search.
 // moduleNames -> map path to its go.mod module name.
@@ -336,14 +328,9 @@ func (ft *Formatter) formatImports(
 		dstFile.Decls = filteredDecls
 	}
 
-	b, ok := bufPool.Get().(*bytes.Buffer)
-	if !ok {
-		return nil, ErrNotBytesBuffer
-	}
-	b.Reset()
-	defer bufPool.Put(b)
+	var b bytes.Buffer
 
-	if err := decorator.Fprint(b, dstFile); err != nil {
+	if err := decorator.Fprint(&b, dstFile); err != nil {
 		return nil, fmt.Errorf("decorator: failed to fprint [%s]: %w", path, err)
 	}
 
