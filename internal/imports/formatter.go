@@ -2,6 +2,7 @@ package imports
 
 import (
 	"bytes"
+	_ "embed"
 	"errors"
 	"fmt"
 	"go/parser"
@@ -18,8 +19,10 @@ import (
 	"github.com/pkg/diff"
 	"github.com/sourcegraph/conc/pool"
 	"golang.org/x/mod/modfile"
-	"golang.org/x/tools/go/packages"
 )
+
+//go:embed data/std_packages.txt
+var stdPackages []byte
 
 const (
 	// Use for group imports
@@ -67,14 +70,15 @@ func NewFormmater(opts ...FormatterOptionFn) (*Formatter, error) {
 		opt(ft)
 	}
 
-	stdPackages, err := packages.Load(nil, "std")
-	if err != nil {
-		return nil, fmt.Errorf("packages: failed to load std: %w", err)
-	}
-
 	ft.stdPackages = make(map[string]struct{})
-	for _, stdPackage := range stdPackages {
-		ft.stdPackages[stdPackage.PkgPath] = struct{}{}
+
+	for pkgPath := range strings.SplitSeq(strings.TrimSpace(string(stdPackages)), "\n") {
+		pkgPath = strings.TrimSpace(pkgPath)
+		if pkgPath == "" {
+			continue
+		}
+
+		ft.stdPackages[pkgPath] = struct{}{}
 	}
 
 	ft.moduleNames = make(map[string]string)
