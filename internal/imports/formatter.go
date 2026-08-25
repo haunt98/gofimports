@@ -288,28 +288,53 @@ func (ft *Formatter) formatImports(
 	// First update
 	dstFile.Imports = formattedDSTImportSpecs
 
-	genDecl, ok := dstFile.Decls[0].(*dst.GenDecl)
+	// Find all import block
+	// `import (...)`
+	// Buffer only 1 because *.go normally has 1 import block
+	importDeclIdxes := make([]int, 0, 1)
+	for i, decl := range dstFile.Decls {
+		genDecl, ok := decl.(*dst.GenDecl)
+		if !ok ||
+			genDecl.Tok != token.IMPORT {
+			continue
+		}
+
+		importDeclIdxes = append(importDeclIdxes, i)
+	}
+
+	if len(importDeclIdxes) == 0 {
+		return nil, ErrNotDSTGenDecl
+	}
+
+	// Merge all import specs into the first import block
+	firstImportGenDecl, ok := dstFile.Decls[importDeclIdxes[0]].(*dst.GenDecl)
 	if !ok {
 		return nil, ErrNotDSTGenDecl
 	}
 
-	formattedGenSpecs := make([]dst.Spec, 0, len(genDecl.Specs))
-
-	// Append all imports first
+	firstImportGenDecl.Specs = make([]dst.Spec, 0, len(formattedDSTImportSpecs))
 	for _, importSpec := range formattedDSTImportSpecs {
-		formattedGenSpecs = append(formattedGenSpecs, importSpec)
+		firstImportGenDecl.Specs = append(firstImportGenDecl.Specs, importSpec)
 	}
 
-	// Append all non imports later
-	for _, genSpec := range genDecl.Specs {
-		if _, ok := genSpec.(*dst.ImportSpec); !ok {
-			formattedGenSpecs = append(formattedGenSpecs, genSpec)
-			continue
+	// Drop the remaining import blocks
+	if len(importDeclIdxes) > 1 {
+		removedIdxes := make(map[int]struct{}, len(importDeclIdxes)-1)
+		for _, idx := range importDeclIdxes[1:] {
+			removedIdxes[idx] = struct{}{}
 		}
-	}
 
-	// Second update
-	genDecl.Specs = formattedGenSpecs
+		filteredDecls := make([]dst.Decl, 0, len(dstFile.Decls)-len(removedIdxes))
+		for i, decl := range dstFile.Decls {
+			if _, ok := removedIdxes[i]; ok {
+				continue
+			}
+
+			filteredDecls = append(filteredDecls, decl)
+		}
+
+		dstFile.Decls = filteredDecls
+	}
 
 	b, ok := bufPool.Get().(*bytes.Buffer)
 	if !ok {
