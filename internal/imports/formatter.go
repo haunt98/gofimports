@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"go/parser"
 	"go/token"
+	"io"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -178,10 +179,20 @@ func (ft *Formatter) formatFile(path string) error {
 		return ErrNotGoFile
 	}
 
-	// Read file first
-	pathBytes, err := os.ReadFile(path)
+	f, err := os.Open(path)
 	if err != nil {
-		return fmt.Errorf("os: failed to read file: [%s] %w", path, err)
+		return fmt.Errorf("os: failed to open file: [%s] %w", path, err)
+	}
+	defer f.Close()
+
+	fileInfo, err := f.Stat()
+	if err != nil {
+		return fmt.Errorf("os: failed to stat: [%s] %w", path, err)
+	}
+
+	pathBytes, err := io.ReadAll(f)
+	if err != nil {
+		return fmt.Errorf("io: failed to read all: [%s] %w", path, err)
 	}
 
 	// Get module name of path
@@ -205,12 +216,6 @@ func (ft *Formatter) formatFile(path string) error {
 	}
 
 	if ft.isWrite {
-		// Preserve original file mode
-		fileInfo, err := os.Stat(path)
-		if err != nil {
-			return fmt.Errorf("os: failed to stat file: [%s] %w", path, err)
-		}
-
 		if err := os.WriteFile(path, formattedBytes, fileInfo.Mode().Perm()); err != nil {
 			return fmt.Errorf("os: failed to write file: [%s] %w", path, err)
 		}
@@ -331,9 +336,7 @@ func (ft *Formatter) formatImports(
 		return nil, fmt.Errorf("decorator: failed to fprint [%s]: %w", path, err)
 	}
 
-	result := make([]byte, b.Len())
-	copy(result, b.Bytes())
-	return result, nil
+	return b.Bytes(), nil
 }
 
 func (ft *Formatter) groupDSTImportSpecs(importSpecs []*dst.ImportSpec, moduleName string) (map[string][]*dst.ImportSpec, error) {
