@@ -321,6 +321,13 @@ func (ft *Formatter) formatImports(
 		firstImportGenDecl.Specs = append(firstImportGenDecl.Specs, importSpec)
 	}
 
+	// Make sure first block has Lparen and Rparen if there are multiple import specs
+	if len(firstImportGenDecl.Specs) > 1 &&
+		!firstImportGenDecl.Lparen {
+		firstImportGenDecl.Lparen = true
+		firstImportGenDecl.Rparen = true
+	}
+
 	// Drop the remaining import blocks
 	if len(importDeclIdxes) > 1 {
 		removedIdxes := make(map[int]struct{}, len(importDeclIdxes)-1)
