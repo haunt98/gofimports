@@ -16,8 +16,8 @@ import (
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
 	"github.com/pkg/diff"
+	"github.com/sourcegraph/conc/pool"
 	"golang.org/x/mod/modfile"
-	"golang.org/x/sync/errgroup"
 	"golang.org/x/tools/go/packages"
 )
 
@@ -28,6 +28,8 @@ const (
 	companyImport    = "company"
 	localImport      = "local"
 )
+
+const defaultMaxGoroutines = 32
 
 var (
 	ErrEmptyPaths       = errors.New("empty paths")
@@ -48,7 +50,7 @@ type Formatter struct {
 	moduleNames      map[string]string
 	formattedPaths   map[string]struct{}
 	companyPrefixes  map[string]struct{}
-	eg               errgroup.Group
+	p                *pool.ErrorPool
 	muModuleNames    sync.RWMutex
 	muFormattedPaths sync.RWMutex
 	isList           bool
@@ -78,6 +80,10 @@ func NewFormmater(opts ...FormatterOptionFn) (*Formatter, error) {
 	ft.moduleNames = make(map[string]string)
 	ft.formattedPaths = make(map[string]struct{})
 
+	ft.p = pool.New().
+		WithErrors().
+		WithMaxGoroutines(defaultMaxGoroutines)
+
 	return ft, nil
 }
 
@@ -102,7 +108,7 @@ func (ft *Formatter) Format(paths ...string) error {
 				return err
 			}
 		default:
-			ft.eg.Go(func() error {
+			ft.p.Go(func() error {
 				if err := ft.formatFile(path); err != nil {
 					if ft.isIgnoreError(err) {
 						return nil
@@ -116,7 +122,7 @@ func (ft *Formatter) Format(paths ...string) error {
 		}
 	}
 
-	if err := ft.eg.Wait(); err != nil {
+	if err := ft.p.Wait(); err != nil {
 		return err
 	}
 
@@ -145,7 +151,7 @@ func (ft *Formatter) formatDir(path string) error {
 			return nil
 		}
 
-		ft.eg.Go(func() error {
+		ft.p.Go(func() error {
 			if err := ft.formatFile(path); err != nil {
 				if ft.isIgnoreError(err) {
 					return nil
