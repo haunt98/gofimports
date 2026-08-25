@@ -449,6 +449,7 @@ func (ft *Formatter) moduleName(path string) (string, error) {
 	// Assume path is dir path, maybe wrong but it is ok for now
 	dirPath := filepath.Clean(path)
 	var goModPath string
+	var foundGoMod bool
 	for {
 		ft.muModuleNames.RLock()
 		if pkgName, ok := ft.moduleNames[dirPath]; ok {
@@ -460,6 +461,7 @@ func (ft *Formatter) moduleName(path string) (string, error) {
 		goModPath = filepath.Join(dirPath, "go.mod")
 		fileInfo, err := os.Stat(goModPath)
 		if err == nil && !fileInfo.IsDir() {
+			foundGoMod = true
 			break
 		}
 
@@ -472,7 +474,7 @@ func (ft *Formatter) moduleName(path string) (string, error) {
 		dirPath = filepath.Dir(dirPath)
 	}
 
-	if goModPath == "" {
+	if !foundGoMod {
 		return "", ErrGoModNotExist
 	}
 	ft.log("moduleName: goModPath: %+v\n", goModPath)
