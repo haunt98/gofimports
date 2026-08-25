@@ -7,11 +7,10 @@
 
 Group Go imports with my opinionated preferences.
 
-First is **standard**. Then **third party**, then **company** if exist. The last
-is **local**.
+First is **standard**. Then **third party**, then **company** if exist. The last is **local**.
 
-Also main selling point of this tool is to handle imports only. So please run
-`gofumpt` or `gofmt` to format you files after running this tool.
+Also main selling point of this tool is to handle imports only. So please run `gofumpt` or `gofmt` to format you files
+after running this tool.
 
 ## Install
 
@@ -52,11 +51,9 @@ import (
 )
 ```
 
-## Roadmap
+## Developer
 
-- [ ] Diff with color
-- [x] Add profiling
-- [ ] Improve performance
+Each time Go release major version, run `go run ./cmd/stdimports` to update `./internal/imports/data/std_packages.txt`.
 
 ## Thanks
 
