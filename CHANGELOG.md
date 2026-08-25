@@ -1,5 +1,63 @@
 # CHANGELOG
 
+## v0.0.21 (2026-08-25)
+
+### Added
+
+- feat: simplify lock (2026-08-25)
+
+- feat: defensive programming (2026-08-25)
+
+- feat: cache packages.Load using embed file (2026-08-25)
+
+- feat: replace errgroup with conc (2026-08-25)
+
+- feat: support multiple import blocks (2026-08-25)
+
+### Fixed
+
+- fix: missing cache dirPath (2026-08-25)
+
+- fix: TOCTUA when format file (2026-08-25)
+
+- fix: found go mod (2026-08-25)
+
+- fix: correct check local module (2026-08-25)
+
+- fix: preserve original file mode when write (2026-08-25)
+
+### Others
+
+- chore: add upstream (2026-08-25)
+
+- chore: guide update std_packages.txt (2026-08-25)
+
+- perf: only check 1 go.mod per path, no support nested go.mod (2026-08-25)
+
+- chore: rm unused logic (2026-08-25)
+
+- chore (2026-08-25)
+
+- perf: optimize stat, bytes buffer (2026-08-25)
+
+- chore: rm pool (2026-08-25)
+
+- chore(changelog): generate v0.0.20 (2026-07-10)
+
+### Build
+
+- build: bump go deps (2026-08-25)
+
+- chore(deps): bump github.com/urfave/cli/v3 from 3.10.1 to 3.11.0 (#172) (2026-08-21)
+
+- chore(deps): bump golang.org/x/mod from 0.39.0 to 0.40.0 (#171) (2026-08-17)
+
+- chore(deps): bump golang.org/x/tools from 0.48.0 to 0.49.0 (#170) (2026-08-17)
+
+- chore(deps): bump golang.org/x/mod from 0.38.0 to 0.39.0 (#169) (2026-08-14)
+
+- chore(deps): bump actions/setup-go from 6 to 7 (#168) (2026-07-16)
+
 ## v0.0.20 (2026-07-10)
 
 ### Others
