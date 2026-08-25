@@ -165,12 +165,13 @@ func (ft *Formatter) formatDir(path string) error {
 }
 
 func (ft *Formatter) formatFile(path string) error {
-	ft.muFormattedPaths.RLock()
+	ft.muFormattedPaths.Lock()
 	if _, ok := ft.formattedPaths[path]; ok {
-		ft.muFormattedPaths.RUnlock()
+		ft.muFormattedPaths.Unlock()
 		return nil
 	}
-	ft.muFormattedPaths.RUnlock()
+	ft.formattedPaths[path] = struct{}{}
+	ft.muFormattedPaths.Unlock()
 
 	// Return if not go file
 	if !isGoFile(filepath.Base(path)) {
@@ -220,10 +221,6 @@ func (ft *Formatter) formatFile(path string) error {
 			return fmt.Errorf("diff: failed to slices: %w", err)
 		}
 	}
-
-	ft.muFormattedPaths.Lock()
-	ft.formattedPaths[path] = struct{}{}
-	ft.muFormattedPaths.Unlock()
 
 	return nil
 }
