@@ -98,7 +98,7 @@ func (ft *Formatter) Format(paths ...string) error {
 
 	// Logic switch case copy from goimports, gofumpt
 	for _, path := range paths {
-		path := strings.TrimSpace(path)
+		path = strings.TrimSpace(path)
 		if path == "" {
 			continue
 		}

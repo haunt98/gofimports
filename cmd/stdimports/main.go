@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"slices"
-	"sort"
 	"strings"
 
 	"golang.org/x/tools/go/packages"
@@ -35,7 +34,7 @@ func main() {
 		pkgPaths = append(pkgPaths, stdPackage.PkgPath)
 	}
 
-	sort.Strings(pkgPaths)
+	slices.Sort(pkgPaths)
 
 	f, err := os.Create(outputPath)
 	if err != nil {
