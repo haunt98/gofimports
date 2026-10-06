@@ -9,7 +9,7 @@ require (
 	github.com/sourcegraph/conc v0.3.0
 	github.com/urfave/cli/v3 v3.14.0
 	golang.org/x/mod v0.41.0
-	golang.org/x/tools v0.50.0
+	golang.org/x/tools v0.51.0
 )
 
 require (
